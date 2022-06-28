@@ -1,0 +1,185 @@
+/* fontawesome */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css';
+
+
+:root{
+    --bg-dark:rgba(0,0,0,0.75);
+    --bg-light:rgba(255,255,255,0.75);
+    --bg-snow:rgba(255,255,255,1);
+    --txt-dark:rgba(0,0,0,0.75);
+    --txt-light:rgba(255,255,255,0.75);
+    --txt-snow:rgba(255,255,255,1);
+    --thm:rgba(245, 197, 125,1);
+}
+
+*{
+    scroll-behavior: smooth;
+}
+
+.bg-dark{
+    background-color:var(--bg-dark) !important;
+}
+
+.bg-light{
+    background-color: var(--bg-light) !important;
+}
+
+.bg-snow{
+    background-color: var(--bg-snow) !important;
+}
+
+.txt-dark{
+    color:var(--txt-dark) !important;
+}
+
+.txt-light{
+    color:var(--txt-light) !important;
+}
+
+.txt-snow{
+    color:var(--txt) !important;
+}
+
+.thm{
+    color:var(--thm) !important;
+}
+
+/* for main register & login */
+#register-main,#login-main{
+    height: 100vh;
+    position: relative;
+    padding: 0;
+}
+
+/* input in login register */
+#register-main .form-group, #login-main .form-group{
+    position: relative;
+}
+
+#register-main i,#login-main i{
+    position: absolute;
+    top:60%;
+    right:10px;
+}
+
+/* news-box */
+
+#news{
+    transition: 0.8s all;
+    box-shadow: 0 0 1px var(--bg-dark);
+    position: relative;
+}
+
+#news-img{
+    width:100%;
+    height:100%;
+}
+
+#today-news #news{
+    height:250px;
+}
+
+#news .news-layer{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: var(--bg-dark);
+}
+
+#news:hover{
+    box-shadow:0 0 10px var(--bg-dark);
+}
+
+/* news title & location */
+.news-title{
+    color:var(--thm);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+#news-location,.news-location{
+    color:var(--txt-light);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#detail-news{
+    height:auto !important;
+}
+
+#detail-image{
+    width:100%;
+    height:350px;
+    position: relative;
+}
+
+#detail-image img{
+    width:100%;
+    height:100%;
+}
+
+#detail-image #detail-layer{
+    width:100%;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.55);
+}
+
+
+/* comment */
+
+#comment{
+    position: relative;
+}
+
+#comment-control{
+    position: absolute;
+    top:10px;
+    right:20px;
+}
+
+#comment #name,#comment #date{
+    font-size: 13px;
+}
+
+#comment #comment-content *{
+    font-size: 15px;
+}
+
+#comment:hover{
+    cursor: pointer;
+}
+
+/* navbar */
+.navbar:hover{
+    cursor: pointer;
+}
+
+
+/* for width */
+.w-15{
+    width:15% !important;
+}
+
+.w-85{
+    width:85% !important;
+}
+
+/* for box-shadow gold */
+.shadow-thm{
+    box-shadow:0 0 4px var(--thm);
+}
+
+
+/* for admin */
+#admin-main{
+    margin-left:15%;
+}
+
+
+
