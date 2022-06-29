@@ -9,6 +9,7 @@ import UsersView from '../views/admin/UsersView.vue';
 import NewsView from '../views/admin/NewsView.vue';
 import CategoriesView from '../views/admin/CategoriesView.vue';
 import NewsCommentsView from '../views/admin/NewsCommentsView.vue';
+import CommentsView from '../views/admin/CommentsView.vue';
 import CreateNewsView from '../views/admin/CreateNewsView.vue';
 
 const routes = [
@@ -37,7 +38,7 @@ const routes = [
   },
 
   {
-    path : '/detail/:id',
+    path : '/news/:id',
     name : 'detailPage',
     component : DetailView
   },
@@ -68,9 +69,15 @@ const routes = [
   },
 
   {
-    path : '/admin/newscomments',
+    path : '/admin/news/comments',
     name : 'dashboardComments',
     component : NewsCommentsView
+  },
+
+  {
+    path : '/admin/news/:newsId/comments',
+    name : 'dashboardNewsComments',
+    component : CommentsView
   },
 
   {

@@ -2,10 +2,11 @@ import axios from "axios"
 
 export default {
     state : {
-        allNews : [],
-        todayNews : [],
-        wroteNews : [],
-        otherNews : []
+        allNews : [],//for all news in home page
+        todayNews : [],//for today news in home page
+        wroteNews : [],//for news in panel that wrote by reporter
+        otherNews : [],//news in detail page to show as latest news
+        news : {}, // to read in detail page
     },
     getters : {
         allNews(state){
@@ -13,7 +14,7 @@ export default {
         },
         
         todayNews(state){
-            return state.todyNews;
+            return state.todayNews;
         },
 
         wroteNews(state){
@@ -22,19 +23,65 @@ export default {
 
         otherNews(state){
             return state.otherNews;
+        },
+
+        news(state){
+            return state.news;
         }
     },
     mutations : {
         setWroteNews(state,datas){
             state.wroteNews = datas;
+        },
+
+        setTodayNews(state,datas){
+            state.todayNews = datas;
+        },
+
+        setAllNews( state , datas){
+            state.allNews = datas;
+        },
+        setNews( state , datas ){
+            state.news = datas;
+        },
+        setOtherNews( state , datas ){
+            state.otherNews = datas;
         }
     },
     actions : {
         async getWroteNews({ commit },userId = 17){
             const res = await axios.get(`http://localhost:8080/hexa/api/users/${userId}/news`);
 
-            console.log(res.data)
+            // console.log(res.data)
             commit('setWroteNews',res.data);
-        }
+        },
+
+        async getTodayNews({ commit }){
+            const res = await axios.get('http://localhost:8080/hexa/api/news/today');
+            
+            // console.log(res.data);
+
+            commit('setTodayNews',res.data);
+        },
+
+         async getAllNews( { commit } ){
+            const res = await axios.get('http://localhost:8080/hexa/api/news');
+
+            commit('setAllNews',res.data);
+         },
+
+         async getNews( { commit } , newsId ){
+            const res = await axios.get(`http://localhost:8080/hexa/api/news/${newsId}`);
+
+            commit('setNews' , res.data)
+         },
+
+         async getOtherNews( { commit } ){
+            const res = await axios.get('http://localhost:8080/hexa/api/news/latest');
+
+            // console.log(res.data);
+
+            commit('setOtherNews',res.data);
+         }
     }
 }

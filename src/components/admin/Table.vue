@@ -14,6 +14,9 @@
             <td class="text-start">{{ index + 1 }}</td>
             <td v-for="column in columns" :key="column" class="text-start text-capitalize">{{data[column] }}</td> 
             <slot name="action"></slot>
+            <td v-if="data.comments_count" class="d-flex gap-2 justify-content-center px-3">
+                <router-link :to="{ path : '/admin/news/'+data.id+'/comments'}" class="btn btn-success btn-sm w-100">Detail</router-link>
+            </td>
         </tr>
     </tbody>
   </table>

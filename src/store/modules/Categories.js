@@ -17,9 +17,7 @@ export default {
     actions : {
         async getCategories({ commit }){
             const res = await axios.get('http://localhost:8080/hexa/api/categories');
-
             // console.log(res.data)
-
             commit('setCategories',res.data);
         }
     }

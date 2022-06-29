@@ -68,6 +68,12 @@
     transition: 0.8s all;
     box-shadow: 0 0 1px var(--bg-dark);
     position: relative;
+    height:200px;
+}
+
+#news img{
+    width:100%;
+    height:100%;
 }
 
 #news-img{
@@ -85,7 +91,7 @@
     left:0;
     width:100%;
     height:100%;
-    background: var(--bg-dark);
+    background: rgba(0,0,0,0.55);
 }
 
 #news:hover{
@@ -112,7 +118,7 @@
 
 #detail-image{
     width:100%;
-    height:350px;
+    height:400px;
     position: relative;
 }
 

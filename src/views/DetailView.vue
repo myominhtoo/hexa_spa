@@ -6,15 +6,12 @@
 
         <div class="mx-auto col-xl-10 col-md-12" >
             <div id="detail-wrapper" class="container-fluid row ">
-                <DetailNews/>
+                <DetailNews v-if="news != null"  :info="news"/>
 
-                <div id="other-news-contaniner" class="col-xl-4 col-none-12 my-5 d-flex flex-column gap-2">
+                <div v-if="otherNews.length" id="other-news-contaniner" class="col-xl-4 col-none-12 my-5 d-flex flex-column gap-2">
                     <h3 class="h3 text-danger text-center fw-bold">Latest News</h3>
 
-                    <OtherNews :info="info"/>
-                    <OtherNews :info="info"/>
-                    <OtherNews :info="info"/>
-                    <OtherNews :info="info"/>
+                    <OtherNews v-for="news in otherNews" :key="news" :info="news"/>
                 </div>
             </div>
 
@@ -47,6 +44,7 @@ import HomeFooter from '../components/public/HomeFooter.vue';
 import DetailNews from '../components/public/DetailNews.vue';
 import OtherNews from '../components/public/OtherNews.vue';
 import Comment from '../components/public/Comment.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name : 'DetailView',
@@ -65,6 +63,19 @@ export default {
                 location : "Yangon",
             }
         }
+    },
+    methods : {
+        ...mapActions(['getNews','getOtherNews']),
+    },
+    computed : {
+        ...mapGetters(['news','otherNews']),
+    },
+    mounted(){
+        this.getNews(this.$route.params.id);
+        this.getOtherNews();
+    },
+    updated(){
+        this.getNews(this.$route.params.id);
     }
 }
 </script>

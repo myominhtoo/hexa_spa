@@ -8,13 +8,13 @@
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
 
-      <div v-if="cmtsInReporter.length">
-          <Table :columns="columns"  :datas="cmtsInReporter">
-            <!-- <template v-slot:action>
+      <div v-if="cmtsInNews.length">
+          <Table :columns="columns"  :datas="cmtsInNews">
+            <template v-slot:action>
                 <td class="d-flex gap-2 justify-content-center px-3">
-                  <router-link to="/admin/news/8/comments" class="btn btn-success btn-sm w-100">Detail{{  }}</router-link>
+                  <button class="btn btn-danger btn-sm w-100">Delete</button>
                 </td>
-              </template> -->
+              </template>
           </Table>
       </div>
 
@@ -33,7 +33,7 @@ import Table from '../../components/admin/Table.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    name : 'NewsCommentsView',
+    name : 'CommentsView',
     components : {
         Navbar,
         Sidebar,
@@ -41,17 +41,18 @@ export default {
     },
     data(){
       return {
-        columns : ["title","commenters_count","comments_count"],
+        columns : ["comment","commented_user","commented_date"],
       }
     },
     methods : {
-      ...mapActions(['getCmtsInReporter'])
+      ...mapActions(['getCmtsInNews'])
     },
     computed : {
-      ...mapGetters(['cmtsInReporter']),
+      ...mapGetters(['cmtsInNews']),
     },
     mounted(){
-      this.getCmtsInReporter();
+
+      this.getCmtsInNews({ userId : 17 , newsId : this.$route.params.newsId});
     }
 }
 </script>

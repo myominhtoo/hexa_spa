@@ -9,7 +9,7 @@
             <router-link to="/admin/news" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-brands fa-neos mx-2"></i>News</router-link>
             <router-link to="/admin/createnews" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-circle-plus mx-2"></i>Create News</router-link>
             <router-link to="/admin/categories" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-layer-group mx-2"></i>Categories</router-link>
-            <router-link to="/admin/newscomments" class="w-100 py-2 px-2  txt-light" id="sidebar-link"><i class="fa-solid fa-comments mx-2"></i>Comments</router-link>
+            <router-link to="/admin/news/comments" class="w-100 py-2 px-2  txt-light" id="sidebar-link"><i class="fa-solid fa-comments mx-2"></i>Comments</router-link>
             <router-link to="/" class="w-100 py-2 px-2 txt-light " id="sidebar-link"><i class="fa-solid fa-globe mx-2"></i>Public Panel</router-link>
         </div>
 

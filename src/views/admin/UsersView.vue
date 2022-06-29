@@ -8,13 +8,19 @@
 
         <h1 class="my-5 thm h3 fw-bold">USERS' INFORMATION</h1>
 
-        <Table :columns="columns" :datas="datas" >
-          <template v-slot:action>
-            <td class="d-flex gap-2 justify-content-center px-3">
-              <button class="btn btn-danger btn-sm w-100">Ban</button>
-            </td>
-          </template>
-        </Table>
+       <div v-if="users.length">
+          <Table :columns="columns" :datas="users" >
+              <template v-slot:action>
+                <td class="d-flex gap-2 justify-content-center px-3">
+                  <button class="btn btn-danger btn-sm w-100">Ban</button>
+                </td>
+              </template>
+          </Table>
+       </div>
+
+       <div v-else>
+          Loading...
+       </div>
 
     </div>
   </main>
@@ -24,6 +30,7 @@
 import Table from '../../components/admin/Table.vue';
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name : 'UsersView',
@@ -34,22 +41,17 @@ export default {
     },
     data(){
       return {
-        columns : ["name","email"],
-        datas : [
-          {
-            name : "Aung Aung",
-            email : "aungaung@gmail.com"
-          },
-          {
-            name : "Mung Mung",
-            email : "mungmung@gmail.com"
-          },
-          {
-            name : "Nung Nung",
-            email : "nungnung@gmail.com"
-          },
-        ]
+        columns : ['user_name','user_email'],
       }
+    },
+    methods : {
+      ...mapActions(['getUsers']),
+    },
+    computed : {
+      ...mapGetters(['users']),
+    },
+    mounted(){
+      this.getUsers();
     }
 }
 </script>
