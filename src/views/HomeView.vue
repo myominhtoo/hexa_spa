@@ -21,10 +21,15 @@
     <div v-if="allNews.length" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
       <span class="h2 text-start text-danger fw-bold">News</span>
 
-      <div id="news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap">
-        <News v-for="news in allNews" :key="news.news_id" :info="news"/>
+      <div id="news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap mx-auto">
+        <div v-for="data in newsInPage" :key="data.news_id" class="news-box my-1 col-xl-3 col-lg-4 col-sm-10 text-light fw-bold p-0" id="news">
+            <News :info="data"/>
+        </div>
       </div>
+
+      <Pagination @go:to="goTo" @go:prev="goPrev" @go:next="goNext" :curPage="curPage" :totalPage="totalPage" />
     </div>
+
 
     <div v-else class="p-5 text-center">
       Loading...
@@ -42,27 +47,61 @@ import Category from '../components/public/Category.vue';
 import HomeFooter from '../components/public/HomeFooter.vue';
 import TodayNews from '../components/public/TodayNews.vue';
 import News from '../components/public/News.vue';
+import Pagination from '../components/public/Pagination.vue';
 import { mapActions , mapGetters } from 'vuex';
+import $ from 'jquery';
+
 
 export default {
+  name : 'HomeView',
   components : {
     Navbar,
     Category,
     HomeFooter,
     TodayNews,
-    News
+    News,
+    Pagination
+  },
+  data(){
+    return {
+      max : 5,
+      curPage : 1,
+    }
   },
   methods : {
-    ...mapActions(['getCategories','getTodayNews','getAllNews']),
+    goTo(page){
+      this.curPage = page ;
+      localStorage.setItem('curPage',page);
+      this.getAllNews({ pageFrom : page , maxPerPage : this.max });
+    }, 
+    goPrev(){
+      this.curPage = this.curPage == 1 ? this.totalPage : this.curPage - 1; 
+       localStorage.setItem('curPage',this.curPage);
+      this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
+    },
+    goNext(){
+       this.curPage = this.curPage > this.totalPage ? 1 : this.curPage + 1;
+       localStorage.setItem('curPage',this.curPage);
+       this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
+    },
+    ...mapActions(['getCategories','getTodayNews','getNewsInPage','getAllNews']),
   },
   computed : {
-    ...mapGetters(['categories','todayNews','allNews']),
+    ...mapGetters(['categories','todayNews','newsInPage','allNews','totalPage']),
+  },
+  created(){
+    if(localStorage.getItem('curPage') == null){
+      this.curPage = 1;
+      localStorage.setItem('curPage',this.curPage);
+    }else{
+      this.curPage = Number(localStorage.getItem('curPage'));
+    }
   },
   mounted(){
-    this.getCategories();
-    this.getTodayNews();
-    this.getAllNews();
-    // console.log(this.todayNews)
-  }
+     this.getCategories();
+     this.getTodayNews();
+     this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
+
+  },
 }
 </script>
