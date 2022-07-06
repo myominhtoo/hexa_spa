@@ -96,10 +96,11 @@ export default {
             commit('setNews' , res.data)
          },
 
-         async getOtherNews( { commit } ){
+         async getOtherNews( { commit } , restrictId ){
             const res = await axios.get('http://localhost:8080/hexa/api/news/latest');
 
-            commit('setOtherNews',res.data);
+            const result = res.data.filter(d => d.news_id != restrictId );
+            commit('setOtherNews',result);
          },
 
         getNewsInPage({ commit } , { allNews , pageFrom , maxPerPage}){

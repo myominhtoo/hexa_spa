@@ -1,5 +1,5 @@
 <template>
-    <span class="p-2 shadow-sm text-danger text-capitalize fw-bold ">{{ text }}</span>
+    <router-link :to="{ path : '/news' , query : { 'category' : id } }"  class="p-2 shadow-sm text-danger text-decoration-none text-capitalize fw-bold ">{{ text }}</router-link>
 </template>
 
 <script>
@@ -8,7 +8,11 @@ export default {
     props : {
         text : {
             type : String ,
-            default : ""
+            default : "",
+        },
+        id : {
+            type : Number,
+            default : null,
         }
     }
 }

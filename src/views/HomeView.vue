@@ -2,14 +2,14 @@
 
   <section id="public-home-main" class="container-fluid p-0 row m-0">
 
-    <Navbar />
+    <Navbar/>
 
     <div v-if="categories.length" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
-      <Category v-for="category in categories" :key="category" :text="category.news_category_name"/>
+      <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
     </div>
 
     <div v-if="todayNews.length" id="today-news" class="col-xl-9 col-md-10 col-sm-12 mx-auto text-start">
-      <span class="h2 text-start text-danger fw-bold">Today News</span>
+      <span class="h2 text-start text-danger fw-bold my-5">Today News</span>
 
       <div id="today-news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap">
         <TodayNews v-for="news in todayNews" :key="news.news_id" :info="news"/>
@@ -19,7 +19,7 @@
 
     <!-- news -->
     <div v-if="allNews.length" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
-      <span class="h2 text-start text-danger fw-bold">News</span>
+      <span class="h2 text-start text-danger fw-bold my-5">News</span>
 
       <div id="news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap mx-auto">
         <div v-for="data in newsInPage" :key="data.news_id" class="news-box my-1 col-xl-3 col-lg-4 col-sm-10 text-light fw-bold p-0" id="news">
@@ -80,7 +80,7 @@ export default {
       this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
     },
     goNext(){
-       this.curPage = this.curPage > this.totalPage ? 1 : this.curPage + 1;
+       this.curPage = this.curPage == this.totalPage ? 1 : this.curPage + 1;
        localStorage.setItem('curPage',this.curPage);
        this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
     },

@@ -23,11 +23,11 @@
                     </form>
                 </div>
 
-                <div id="comments" class="col-lg-6 col-none-12 my-3">
-                    <Comment/>
-                    <Comment/>
-                    <Comment/>
-
+                <div v-show="publicComments.length" id="comments" class="col-lg-6 col-none-12 my-3">
+                   <div v-for="cmt,idx in publicComments" :key="cmt.comment_id" class="w-auto h-auto p-0 m-0">
+                        <Comment v-if="idx <= (cmtMax - 1)" :data="cmt" />
+                   </div>
+                   <p class="text-decoration-underline fw-bold text-primary text-start p-0 m-0" @click="toggleShowComment"><span v-show="seeMore">See Less</span><span v-show="!seeMore">See More</span></p>
                 </div>
             </div>
         </div>
@@ -61,21 +61,46 @@ export default {
                 image : "hello",
                 title : "Hello World!",
                 location : "Yangon",
-            }
+            },
+            curNewsId : null,
+            watcher : null,
+            seeMore : false,
+            cmtMax : 2,//to render
         }
     },
     methods : {
-        ...mapActions(['getNews','getOtherNews']),
+        toggleShowComment(){
+            this.seeMore = !this.seeMore;
+            
+            this.cmtMax = this.seeMore ? this.publicComments.length : 2;
+        },
+        ...mapActions(['getNews','getOtherNews','getPublicComments']),
     },
     computed : {
-        ...mapGetters(['news','otherNews']),
+        ...mapGetters(['news','otherNews','publicComments']),
     },
-    mounted(){
-        this.getNews(this.$route.params.id);
-        this.getOtherNews();
+    created(){
+        this.curNewsId = this.$route.params.id;
+       
+        this.getNews(this.curNewsId);
+        this.getOtherNews(this.curNewsId);
+        this.getPublicComments(this.curNewsId);
+
+       this.watcher =   this.$watch(
+            () => this.$route.params.id,
+            () => {
+                this.curNewsId = this.$route.params.id;
+
+                if(typeof this.curNewsId != "undefined"){
+                    this.getNews(this.curNewsId);
+                    this.getOtherNews(this.curNewsId);
+                    this.getPublicComments(this.curNewsId);
+                }
+            }
+        );
     },
-    updated(){
-        this.getNews(this.$route.params.id);
+    unmounted(){
+        this.watcher();
     }
 }
 </script>

@@ -11,6 +11,7 @@ import CategoriesView from '../views/admin/CategoriesView.vue';
 import NewsCommentsView from '../views/admin/NewsCommentsView.vue';
 import CommentsView from '../views/admin/CommentsView.vue';
 import CreateNewsView from '../views/admin/CreateNewsView.vue';
+import FilterNewsView from '../views/FilterNewsView.vue';
 
 const routes = [
   {
@@ -32,15 +33,15 @@ const routes = [
   },
   
   {
-    path : '/search',
-    name : 'searchPage',
-    component : SearchView
-  },
-
-  {
     path : '/news/:id',
     name : 'detailPage',
     component : DetailView
+  },
+
+  {
+    path : '/news',
+    name : 'newsByCategoryPage',
+    component : FilterNewsView
   },
 
   // for dashboard
