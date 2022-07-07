@@ -2,7 +2,7 @@
 
   <section id="public-home-main" class="container-fluid p-0 row m-0">
 
-    <Navbar/>
+    <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
     <div v-if="categories.length" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
       <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
@@ -84,10 +84,10 @@ export default {
        localStorage.setItem('curPage',this.curPage);
        this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
     },
-    ...mapActions(['getCategories','getTodayNews','getNewsInPage','getAllNews']),
+    ...mapActions(['getCategories','getTodayNews','getNewsInPage','getAllNews','getUserInfo']),
   },
   computed : {
-    ...mapGetters(['categories','todayNews','newsInPage','allNews','totalPage']),
+    ...mapGetters(['categories','todayNews','newsInPage','allNews','totalPage','userInfo','isLogin']),
   },
   created(){
     if(localStorage.getItem('curPage') == null){
@@ -101,6 +101,8 @@ export default {
      this.getCategories();
      this.getTodayNews();
      this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
+
+     this.getUserInfo();
 
   },
 }

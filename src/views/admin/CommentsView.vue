@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
 
@@ -45,13 +45,13 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getCmtsInNews'])
+      ...mapActions(['getCmtsInNews','getUserInfo'])
     },
     computed : {
-      ...mapGetters(['cmtsInNews']),
+      ...mapGetters(['cmtsInNews','userInfo','isLogin']),
     },
     mounted(){
-
+      this.getUserinfo();
       this.getCmtsInNews({ userId : 17 , newsId : this.$route.params.newsId});
     }
 }

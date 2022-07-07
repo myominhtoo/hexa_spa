@@ -2,7 +2,8 @@
    
     <section id="public-detail-main" class="container-fluid p-0 row m-0 ">
 
-        <Navbar />
+        <Navbar :userInfo="userInfo" :isLogin="isLogin" />
+
 
         <div class="mx-auto col-xl-10 col-md-12" >
             <div id="detail-wrapper" class="container-fluid row ">
@@ -16,7 +17,7 @@
             </div>
 
             <div id="comments-wrapper" class="container-fluid row my-5">
-                <div id="comment-input" class="col-lg-6 col-none-12 my-3">
+                <div  v-if="isLogin && userInfo != ''" id="comment-input" class="col-lg-6 col-none-12 my-3">
                     <form action="" class="w-100 h-auto">
                         <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Comment here"></textarea>
                         <button class="btn btn-primary my-2 w-100">Comment</button>
@@ -25,9 +26,9 @@
 
                 <div v-show="publicComments.length" id="comments" class="col-lg-6 col-none-12 my-3">
                    <div v-for="cmt,idx in publicComments" :key="cmt.comment_id" class="w-auto h-auto p-0 m-0">
-                        <Comment v-if="idx <= (cmtMax - 1)" :data="cmt" />
+                        <Comment v-if="idx <= (cmtMax - 1)" :data="cmt" :isLogin="isLogin" :userInfo="userInfo" />
                    </div>
-                   <p class="text-decoration-underline fw-bold text-primary text-start p-0 m-0" @click="toggleShowComment"><span v-show="seeMore">See Less</span><span v-show="!seeMore">See More</span></p>
+                   <p v-if="publicComments.length > 2" class="text-decoration-underline fw-bold text-primary text-start p-0 m-0" @click="toggleShowComment"><span v-show="seeMore">See Less</span><span v-show="!seeMore">See More</span></p>
                 </div>
             </div>
         </div>
@@ -74,10 +75,10 @@ export default {
             
             this.cmtMax = this.seeMore ? this.publicComments.length : 2;
         },
-        ...mapActions(['getNews','getOtherNews','getPublicComments']),
+        ...mapActions(['getNews','getOtherNews','getPublicComments','getUserInfo']),
     },
     computed : {
-        ...mapGetters(['news','otherNews','publicComments']),
+        ...mapGetters(['news','otherNews','publicComments','userInfo','isLogin']),
     },
     created(){
         this.curNewsId = this.$route.params.id;
@@ -98,6 +99,9 @@ export default {
                 }
             }
         );
+    },
+    mounted(){
+        this.getUserInfo();
     },
     unmounted(){
         this.watcher();

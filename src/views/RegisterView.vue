@@ -123,8 +123,5 @@ export default {
     this.getUsers();
     this.getEmails();
   },
-  mounted(){
-    console.log(document.cookie)
-  }
 }
 </script>

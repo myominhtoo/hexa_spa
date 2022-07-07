@@ -2,7 +2,7 @@
     <div v-show="data != null" id="comment" class="w-100 shadow-sm p-2 px-3 my-2" >
         <div id="comment-control">
             <div class="dropdown">
-                <i v-show="isLogin && data != null && data.user_id == userInfo.user_id" class="fa-solid fa-ellipsis-vertical txt-dark" data-bs-target="dropdown" data-bs-toggle="dropdown"></i>
+                <i v-if="isLogin && data != null && data.user_id == decode(userInfo.user_id) && data.user_name == decode(userInfo.user_name)" class="fa-solid fa-ellipsis-vertical txt-dark" data-bs-target="dropdown" data-bs-toggle="dropdown"></i>
 
                 <ul class="dropdown-menu p-0 m-0" style="transform:translateX(-100%) !important;">
                     <li class="dropdown-item">Edit</li>
@@ -25,6 +25,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import getSecret from '@/composables/getSecret.js';
 
 export default {
     name : 'Comment',
@@ -32,16 +33,18 @@ export default {
         data : {
             type : Object,
             default : null,
+        },
+        userInfo :"",
+        isLogin : {
+            type : Boolean,
+            default : false,
         }
     },
-    methods : {
-        ...mapActions(['getUserInfo']),
-    },
-    computed : {
-        ...mapGetters(['userInfo','isLogin']),
-    },
-    mounted(){
-        this.getUserInfo();
+
+    setup(){
+        const { encode , decode } = getSecret();
+
+        return { encode , decode };
     }
 }
 </script>

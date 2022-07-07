@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :userInfo="userInfo" :isLogin="isLogin" />
 
         <Welcome/>
 
@@ -23,6 +23,7 @@ import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Welcome from '../../components/admin/Welcome.vue';
 import Box from '../../components/admin/Box.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name : 'AdminHomeView',
@@ -31,6 +32,16 @@ export default {
         Sidebar,
         Welcome,
         Box
+    },
+    methods : {
+      ...mapActions(['getUserInfo']),
+    },
+    computed :  {
+      ...mapGetters(['userInfo','isLogin']),
+    },
+    mounted(){
+      this.getUserInfo();
+
     }
 }
 </script>

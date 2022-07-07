@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar  :isLogin="isLogin" :userInfo="userInfo" />
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
 
@@ -45,13 +45,14 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getCmtsInReporter'])
+      ...mapActions(['getCmtsInReporter','getUserInfo'])
     },
     computed : {
-      ...mapGetters(['cmtsInReporter']),
+      ...mapGetters(['cmtsInReporter','userInfo','isLogin']),
     },
     mounted(){
       this.getCmtsInReporter();
+      this.getUserInfo();
     }
 }
 </script>

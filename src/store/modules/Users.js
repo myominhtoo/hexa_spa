@@ -41,6 +41,10 @@ export default {
 
         setIsLogin( state , status ){
             state.isLogin = status;
+        },
+
+        unsetUserInfo(state , data ){
+            state.userInfo = data;
         }
     },
     actions : {
@@ -67,11 +71,23 @@ export default {
             }).reduce( ( prev , cur ) => {
                 prev[decodeURIComponent(cur[0].trim())] = decodeURIComponent(cur[1].trim());
                 return prev;
-            } , {} )
+            } , {} )    
             
             commit('setIsLogin', data == "" ? false : true );
             commit('setUserInfo',data);
         },
 
+        removeUserInfo({ commit } , infos ){
+            for(let info in infos){
+                document.cookie = `${info}=; expires=${new Date(0).toUTCString()}; path=/`;
+            }
+            commit('unsetUserInfo',{});
+            commit('setIsLogin',false)
+        },
+        
+
+        getTest(){
+            console.log("hello World")
+        }
     }
 }

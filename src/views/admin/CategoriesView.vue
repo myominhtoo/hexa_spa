@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
          <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
 
@@ -45,14 +45,15 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getCategories'])
+      ...mapActions(['getCategories','getUserInfo']),
     },
     computed : {
-      ...mapGetters(['categories']),
+      ...mapGetters(['categories','userInfo','isLogin']),
     },
     mounted(){
       this.getCategories();
 
+      this.getUserInfo();
       // console.log(this.categories)
     }
 }

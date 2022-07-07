@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
         <h1 class="my-5 thm h3 fw-bold">USERS' INFORMATION</h1>
 
@@ -45,13 +45,15 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getUsers']),
+      ...mapActions(['getUsers','getUserInfo']),
     },
     computed : {
-      ...mapGetters(['users']),
+      ...mapGetters(['users','userInfo','isLogin']),
     },
     mounted(){
       this.getUsers();
+
+      this.getUserInfo();
     }
 }
 </script>

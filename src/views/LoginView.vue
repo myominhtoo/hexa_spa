@@ -1,6 +1,8 @@
 <template>
 
-  <section id="login-main" class="container-fluid row d-flex justify-content-center align-items-center p-0 m-0">
+  <section id="login-main" class="container-fluid row d-flex flex-column justify-content-center align-items-center p-0 m-0">
+
+     <h3 v-if="$route.query.status != undefined" class="h-6 my-3 p-2 text-center text-danger">{{ $route.query.status }}</h3>
 
       <main class="card p-3 col-xl-3 col-md-7 col-lg-4 col-sm-10">
 
@@ -42,6 +44,7 @@
 
 <script>
 import axios from 'axios';
+import { encode , decode } from '@/composables/getSecret.js';
 import Footer from '../components/public/Footer.vue';
 
 export default {
@@ -49,6 +52,7 @@ export default {
   components : {
     Footer
   },
+
   data(){
     return {
       user : {
@@ -67,6 +71,7 @@ export default {
       }
     }
   },
+
   methods : {
     async handleLoginSubmit(){
       
@@ -87,11 +92,11 @@ export default {
             this.errors.user_email = { hasError : true , msg : "Invalid Email or Password!" };
             this.errors.user_password = { hasError : true , msg : "Invalid Email or Password! " };
          }else{      
-            document.cookie = `user_name=${user.user_name}; Secure`;
-            document.cookie = `user_id=${user.user_id}`;
-            document.cookie = `user_email=${user.user_email}; Secure`;
-            document.cookie = `user_role=${user.user_role}; Secure`;
-            document.cookie = `_token=${user._token}; Secure`;
+            document.cookie = `user_name=${this.encode(user.user_name)}; Secure`;
+            document.cookie = `user_id=${this.encode(user.user_id)}`;
+            document.cookie = `user_email=${this.encode(user.user_email)}; Secure`;
+            document.cookie = `user_role=${this.encode(user.user_role)}; Secure`;
+            document.cookie = `_token=${this.encode(user._token)}; Secure`;
             
             this.resetForm();
             
@@ -111,7 +116,13 @@ export default {
     },
     resetForm(){
       this.user = { user_email : "" , user_password : "" };
+    },
+    encode( input ){
+      return window.btoa(input);
+    },
+    decode( input ){
+      return window.atob(input);
     }
-  }
+  },
 }
 </script>

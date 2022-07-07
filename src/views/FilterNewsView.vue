@@ -1,7 +1,7 @@
 <template>
     
     <section id="public-home-main" class="container-fluid p-0 row m-0">
-        <Navbar/>
+        <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
         <div v-if="categories.length && typeof $route.query.category == 'string'" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
             <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
@@ -79,7 +79,6 @@ export default {
             ? this.hasNotFoundError = true
             : this.hasNotFoundError = false;
 
-            console.log(res.data)
 
             this.datas = res.data;
         },
@@ -106,10 +105,10 @@ export default {
         handleNewsSearch( search ){
             this.$router.push({path : 'news', query : { 'search' : search }});
         },
-        ...mapActions(['getCategories']),
+        ...mapActions(['getCategories','getUserInfo']),
     },
     computed : {
-        ...mapGetters(['categories']),
+        ...mapGetters(['categories','userInfo','isLogin']),
     },
     created(){
         this.getCategories();

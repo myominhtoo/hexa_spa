@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
         <h1 class="my-5 thm h3 fw-bold">CREATE NEWS HERE!</h1>
 
@@ -51,12 +51,22 @@
 <script>
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name : 'CreateNewsView',
     components : {
         Navbar,
         Sidebar,
+    },
+    methods : {
+      ...mapActions(['getUserInfo']),
+    },
+    computed : {
+      ...mapGetters(['userInfo','isLogin']),
+    },
+    mounted(){
+      this.getUserInfo();
     }
 }
 </script>

@@ -4,7 +4,7 @@
     <Sidebar/>
 
     <div id="admin-main" class="w-85">
-        <Navbar/>
+        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
         <h1 class="my-5 thm h3 fw-bold">NEWS' INFORMATION</h1>
 
@@ -46,13 +46,14 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getWroteNews']),
+      ...mapActions(['getWroteNews','getUserInfo']),
     },
     computed : {
-      ...mapGetters(['wroteNews']),
+      ...mapGetters(['wroteNews','userInfo','isLogin']),
     },
     mounted(){
       this.getWroteNews();
+      this.getUserInfo();
     }
 
 }
