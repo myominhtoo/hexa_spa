@@ -18,15 +18,15 @@
 
             <div id="comments-wrapper" class="container-fluid row my-5">
                 <div  v-if="isLogin && userInfo != ''" id="comment-input" class="col-lg-6 col-none-12 my-3">
-                    <form action="" class="w-100 h-auto">
-                        <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Comment here"></textarea>
+                    <form @submit.prevent="handleComment" class="w-100 h-auto">
+                        <textarea v-model="comment" name="" id="" cols="30" rows="7" class="form-control" placeholder="Comment here"></textarea>
                         <button class="btn btn-primary my-2 w-100">Comment</button>
                     </form>
                 </div>
 
                 <div v-show="publicComments.length" id="comments" class="col-lg-6 col-none-12 my-3">
                    <div v-for="cmt,idx in publicComments" :key="cmt.comment_id" class="w-auto h-auto p-0 m-0">
-                        <Comment v-if="idx <= (cmtMax - 1)" :data="cmt" :isLogin="isLogin" :userInfo="userInfo" />
+                        <Comment @delete="handleCommentDelete" @update="handleCommentUpdate" v-if="idx <= (cmtMax - 1)" :data="cmt" :isLogin="isLogin" :userInfo="userInfo" />
                    </div>
                    <p v-if="publicComments.length > 2" class="text-decoration-underline fw-bold text-primary text-start p-0 m-0" @click="toggleShowComment"><span v-show="seeMore">See Less</span><span v-show="!seeMore">See More</span></p>
                 </div>
@@ -46,6 +46,7 @@ import DetailNews from '../components/public/DetailNews.vue';
 import OtherNews from '../components/public/OtherNews.vue';
 import Comment from '../components/public/Comment.vue';
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
 
 export default {
     name : 'DetailView',
@@ -65,8 +66,10 @@ export default {
             },
             curNewsId : null,
             watcher : null,
+            commentWatcher : null,
             seeMore : false,
             cmtMax : 2,//to render
+            comment : "",
         }
     },
     methods : {
@@ -74,6 +77,34 @@ export default {
             this.seeMore = !this.seeMore;
             
             this.cmtMax = this.seeMore ? this.publicComments.length : 2;
+        },
+        async handleComment(){
+           if((this.userInfo != "" || this.userInfo != undefined ) && this.comment != ""){
+                let  news_id = this.$route.params.id;
+                const data = {
+                    user_id :window.atob(this.userInfo.user_id),
+                    news_id : news_id,
+                    comments : this.comment,
+                }
+                
+                const res = await axios.post(`http://localhost:8080/hexa/api/news/${news_id}/createcomment?_token=${window.atob(this.userInfo._token)}&email=${window.atob(this.userInfo.user_email)}`,data);
+
+                if(res.data == "Success"){
+                    this.getPublicComments(news_id);
+                    this.comment = "";
+                }
+           }
+
+        },  
+        async handleCommentDelete( commentId ){
+           const res = await axios.delete(`http://localhost:8080/hexa/api/news/${this.$route.params.id}/comments/${commentId}`);
+           
+           if(res.data == "Success"){
+                this.getPublicComments(this.$route.params.id);
+           }
+        },
+        handleCommentUpdate( newsId ){
+            this.getPublicComments(newsId)
         },
         ...mapActions(['getNews','getOtherNews','getPublicComments','getUserInfo']),
     },
@@ -99,12 +130,21 @@ export default {
                 }
             }
         );
+
+        this.commentWatcher = this.$watch(
+            () => this.publicComments,
+            () => {
+                this.cmtMax = this.seeMore ? this.publicComments.length : 2;
+            }
+        );
     },
     mounted(){
         this.getUserInfo();
+
     },
     unmounted(){
         this.watcher();
-    }
+        this.commentWatcher();
+    },
 }
 </script>

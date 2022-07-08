@@ -46,7 +46,6 @@ export default {
 
         async getPublicComments( { commit } , newsId ){
             const res = await axios.get(`http://localhost:8080/hexa/api/news/${newsId}/comments`);
-            
             commit('setPublicComments',res.data);
         }
     }
