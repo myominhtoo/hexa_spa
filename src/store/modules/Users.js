@@ -64,30 +64,32 @@ export default {
             commit('setEmails', email );
         },
         getUserInfo( { commit } ){
-            const data = document.cookie == "" || null
-            ? ""
-            : document.cookie.split("; ").map( ele => {
-                return ele.split("=");
-            }).reduce( ( prev , cur ) => {
-                prev[decodeURIComponent(cur[0].trim())] = decodeURIComponent(cur[1].trim());
-                return prev;
-            } , {} )    
+
+            let cookie = document.cookie;
+            let data = "";
+
+            if(cookie == "" || cookie == null){
+                data = "";
+            }else{
+                data = document.cookie.split("; ").map( ele => {
+                    return ele.split("=");
+                }).reduce( ( prev , cur ) => {
+                    prev[decodeURIComponent(cur[0].trim())] = decodeURIComponent(cur[1].trim());
+                    return prev;
+                } , {} )  
             
+            }
+                
             commit('setIsLogin', data == "" ? false : true );
             commit('setUserInfo',data);
         },
 
         removeUserInfo({ commit } , infos ){
             for(let info in infos){
-                document.cookie = `${info}=; expires=${new Date(0).toUTCString()}; path=/`;
+                document.cookie = `${info}=; Max-Age=-999999; expires=Thu, 01 Jan 1970 00:00:00 GMT; `;
             }
-            commit('unsetUserInfo',{});
+            commit('unsetUserInfo',"");
             commit('setIsLogin',false)
         },
-        
-
-        getTest(){
-            console.log("hello World")
-        }
     }
 }

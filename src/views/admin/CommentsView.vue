@@ -51,7 +51,9 @@ export default {
       ...mapGetters(['cmtsInNews','userInfo','isLogin']),
     },
     mounted(){
-      this.getUserinfo();
+      if(document.cookie != ""){
+         this.getUserInfo();
+      }
       this.getCmtsInNews({ userId : 17 , newsId : this.$route.params.newsId});
     }
 }

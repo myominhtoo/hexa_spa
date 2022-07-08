@@ -1,3 +1,4 @@
+import axios from "axios";
 import swal from "sweetalert";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -14,21 +15,27 @@ const getLogout = () => {
         store.dispatch('removeUserInfo', info )
     }
 
-    const handleLogout = ( info ) => {
+    const handleLogout = async ( info ) => {
         swal({
             text : `Are you Sure to Logout, ${decode(info.user_name)}?`,
             icon : "warning",
             buttons : ['No','Yes']
-        }).then((willLogout) => {
+        }).then(async (willLogout) => {
             if(willLogout){
-                clearSession(info);
-                                
-                router.push({
-                    path : "/login",
-                    query : {
-                        status : "Successfully Logout!",
-                    }
-               });
+                
+                const res = await axios.get(`http://localhost:8080/hexa/api/logout?email=${window.atob(info.user_email)}`);
+                
+                if(res.data == "Success"){
+                        clearSession(info);
+
+                        router.push({
+                            path : "/login",
+                            query : {
+                                status : "Successfully Logout!",
+                            }
+                    });
+                }
+                            
             }
         });
     }

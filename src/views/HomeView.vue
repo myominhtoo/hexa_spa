@@ -101,9 +101,7 @@ export default {
      this.getCategories();
      this.getTodayNews();
      this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
-
      this.getUserInfo();
-
   },
 }
 </script>

@@ -53,8 +53,9 @@ export default {
     mounted(){
       this.getCategories();
 
-      this.getUserInfo();
-      // console.log(this.categories)
+      if(document.cookie != ""){
+         this.getUserInfo();
+      }
     }
 }
 </script>

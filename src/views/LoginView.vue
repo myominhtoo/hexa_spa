@@ -2,7 +2,7 @@
 
   <section id="login-main" class="container-fluid row d-flex flex-column justify-content-center align-items-center p-0 m-0">
 
-     <h3 v-if="$route.query.status != undefined" class="h-6 my-3 p-2 text-center text-danger">{{ $route.query.status }}</h3>
+     <h3 v-if="$route.query.status != undefined" class="h-6 my-3 p-2 text-center text-danger " id="status" >{{ $route.query.status }}</h3>
 
       <main class="card p-3 col-xl-3 col-md-7 col-lg-4 col-sm-10">
 
@@ -92,15 +92,16 @@ export default {
             this.errors.user_email = { hasError : true , msg : "Invalid Email or Password!" };
             this.errors.user_password = { hasError : true , msg : "Invalid Email or Password! " };
          }else{      
-            document.cookie = `user_name=${this.encode(user.user_name)}; Secure`;
-            document.cookie = `user_id=${this.encode(user.user_id)}`;
-            document.cookie = `user_email=${this.encode(user.user_email)}; Secure`;
-            document.cookie = `user_role=${this.encode(user.user_role)}; Secure`;
-            document.cookie = `_token=${this.encode(user._token)}; Secure`;
+            document.cookie = `user_name=${this.encode(user.user_name)}; `;
+            document.cookie = `user_id=${this.encode(user.user_id)}; `;
+            document.cookie = `user_email=${this.encode(user.user_email)}; `;
+            document.cookie = `user_role=${this.encode(user.user_role)}; `;
+            document.cookie = `_token=${this.encode(user._token)}; `;
             
             this.resetForm();
             
-            if(user.user_role == "reporter" || user.user_role == "admin" ) this.$router.push("/admin");
+            if(user.user_role == "admin" ) this.$router.push("/admin");
+            else if(user.user_role == "reporter") this.$router.push("/admin/news");
             else this.$router.push("/");
          }
       }

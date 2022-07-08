@@ -52,7 +52,9 @@ export default {
     },
     mounted(){
       this.getCmtsInReporter();
-      this.getUserInfo();
+       if(document.cookie != ""){
+         this.getUserInfo();
+      }
     }
 }
 </script>

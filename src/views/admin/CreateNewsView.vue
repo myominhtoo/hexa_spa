@@ -66,7 +66,9 @@ export default {
       ...mapGetters(['userInfo','isLogin']),
     },
     mounted(){
-      this.getUserInfo();
+       if(document.cookie != ""){
+         this.getUserInfo();
+      }
     }
 }
 </script>

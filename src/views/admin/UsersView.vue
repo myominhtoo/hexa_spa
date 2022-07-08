@@ -53,7 +53,9 @@ export default {
     mounted(){
       this.getUsers();
 
-      this.getUserInfo();
+       if(document.cookie != ""){
+         this.getUserInfo();
+      }
     }
 }
 </script>

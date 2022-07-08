@@ -53,7 +53,9 @@ export default {
     },
     mounted(){
       this.getWroteNews();
-      this.getUserInfo();
+       if(document.cookie != ""){
+         this.getUserInfo();
+      }
     }
 
 }

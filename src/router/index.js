@@ -13,6 +13,10 @@ import CommentsView from '../views/admin/CommentsView.vue';
 import CreateNewsView from '../views/admin/CreateNewsView.vue';
 import FilterNewsView from '../views/FilterNewsView.vue';
 
+import getRouteGuard from '@/router/helper/getRouteGuard.js'
+
+const { forAdmin , forAdminAndReporter } = getRouteGuard();
+
 const routes = [
   {
     path : '/',
@@ -48,48 +52,55 @@ const routes = [
   {
     path : '/admin/',
     name : 'dashboardHome',
-    component : AdminHomeView
+    component : AdminHomeView,
+    beforeEnter : [ forAdmin ]
   },
 
   {
     path : '/admin/users',
     name : 'dashboardUsers',
-    component : UsersView
+    component : UsersView,
+    beforeEnter : [forAdmin]
   },
 
   {
     path : '/admin/news',
     name : 'dashboardNews',
-    component : NewsView
+    component : NewsView,
+    beforeEnter : [ forAdminAndReporter ]
   },
 
   {
     path : '/admin/categories',
     name : 'dashboardCategoires',
-    component : CategoriesView
+    component : CategoriesView,
+    beforeEnter : [ forAdminAndReporter ],
   },
 
   {
     path : '/admin/news/comments',
     name : 'dashboardComments',
-    component : NewsCommentsView
+    component : NewsCommentsView,
+    beforeEnter : [ forAdminAndReporter ]
   },
 
   {
     path : '/admin/news/:newsId/comments',
     name : 'dashboardNewsComments',
-    component : CommentsView
+    component : CommentsView,
+    beforeEnter : [ forAdminAndReporter ]
   },
 
   {
     path : '/admin/createnews',
     name : 'dashboardCreateNews',
-    component : CreateNewsView
+    component : CreateNewsView,
+    beforeEnter : [ forAdminAndReporter ],
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
