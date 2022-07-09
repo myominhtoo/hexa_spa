@@ -1,7 +1,7 @@
 <template>
   <main id="admin-home" class="container-fluid p-0 m-0 d-flex" >
 
-    <Sidebar/>
+    <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85">
         <Navbar :isLogin="isLogin" :userInfo="userInfo" />

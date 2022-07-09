@@ -5,7 +5,7 @@
         </router-link>
 
         <div  id="sidebar-links" class="d-flex flex-column w-100 py-0  px-1 m-0 text-start">
-            <router-link to="/admin/users" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-users mx-2"></i>Users</router-link>
+            <router-link v-if="isLogin && decode(userInfo.user_role) == 'admin'" to="/admin/users" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-users mx-2"></i>Users</router-link>
             <router-link to="/admin/news" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-brands fa-neos mx-2"></i>News</router-link>
             <router-link to="/admin/createnews" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-circle-plus mx-2"></i>Create News</router-link>
             <router-link to="/admin/categories" class="w-100 py-2 px-2 txt-light" id="sidebar-link"><i class="fa-solid fa-layer-group mx-2"></i>Categories</router-link>
@@ -14,7 +14,7 @@
         </div>
 
         <footer id="sidebar-footer">
-            <span class="txt-light" >Created By Hexa_Group</span>
+            <span class="txt-light" v-if="userInfo != '' && isLogin" >Created By Hexa_Group</span>
         </footer>
     </nav>
 </template>
@@ -61,3 +61,24 @@
     font-size: 13px;
 }
 </style>
+
+<script>
+import getSecret from '@/composables/getSecret'
+
+export default {
+    name : "SideBar",
+    props : {
+        isLogin : {
+            type : Boolean,
+            defaut : false,
+        },  
+        userInfo :"",
+    },
+    setup(props){
+        const { encode , decode } = getSecret();
+
+        return { encode , decode }
+    }
+
+}
+</script>

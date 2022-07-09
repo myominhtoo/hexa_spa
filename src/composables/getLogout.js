@@ -28,6 +28,8 @@ const getLogout = () => {
                 if(res.data == "Success"){
                         clearSession(info);
 
+                        localStorage.removeItem("curPage");
+
                         router.push({
                             path : "/login",
                             query : {
