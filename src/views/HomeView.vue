@@ -64,7 +64,7 @@ export default {
   },
   data(){
     return {
-      max : 5,
+      max : 9,
       curPage : 1,
     }
   },

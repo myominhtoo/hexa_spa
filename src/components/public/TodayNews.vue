@@ -1,5 +1,5 @@
 <template>
-    <div class="news-box my-1 col-lg-5 col-none-12 p-0" id="news">
+    <div class="news-box my-2 col-lg-5 col-none-12 p-0" id="news">
 		<router-link :to="'/news/'+info.news_id"> <img :src="'http://localhost:8080/img/'+ info.news_img" class="news-img" alt="image" />
 			<div class="news-layer p-3 d-flex justify-content-end flex-column" >
 				<span class="news-title text-capitalize fw-bold"> {{ info.news_name }} </span>

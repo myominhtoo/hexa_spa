@@ -8,36 +8,40 @@
 
         <h1 class="my-5 thm h3 fw-bold">CREATE NEWS HERE!</h1>
 
-        <form action="" class="card w-75 mx-auto p-3 text-start">
+
+        <form @submit.prevent="handleCreateNews" action="" class="card w-75 mx-auto p-3 text-start" enctype="multipart/form-data">
+          <p v-if="status != ''" id="success" class="my-3 text-success text-start p-2">{{ status }}</p>
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Title</label>
-            <input type="text" class="form-control" placeholder="e.g title about what happened">
+            <input v-model="news_name" type="text" class="form-control" placeholder="e.g title about what happened">
+            <span v-if="errors.news_name.hasError && errors.news_name.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.news_name.msg }}</span>
           </div>
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Category</label>
-            <select name="" id="" class="form-select text-capitalize">
+            <select v-model="news_category" v-if="categories.length > 0" name="" id="" class="form-select text-capitalize">
               <option value="" selected disabled>Choose News' Category</option>
-              <option value="">sport</option>
-              <option value="">entertainment</option>
-              <option value="">politics</option>
-              <option value="">global</option>
+              <option v-for="c in categories" :key="c.news_category_id" class="text-capitalize" :value="c.news_category_id">{{ c.news_category_name }}</option>
             </select>
+            <span v-if="errors.news_category.hasError && errors.news_category.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.news_category.msg }}</span>
           </div>
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Location</label>
-            <input type="text" class="form-control" placeholder="e.g Yangon">
+            <input v-model="news_location" type="text" class="form-control" placeholder="e.g Yangon">
+            <span v-if="errors.news_location.hasError && errors.news_location.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.news_location.msg }}</span>
           </div>
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Content</label>
-            <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="e.g detail about what happened"></textarea>
+            <textarea v-model="descriptions" name="" id="" cols="30" rows="10" class="form-control" placeholder="e.g detail about what happened"></textarea>
+            <span v-if="errors.descriptions.hasError && errors.descriptions.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.descriptions.msg }}</span>
           </div>
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Image</label>
-            <input type="file" class="form-control">
+            <input ref="news_img" type="file" class="form-control" id="file">
+            <span v-if="errors.news_img.hasError && errors.news_img.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.news_img.msg }}</span>
           </div>
 
           <div class="form-group my-2">
@@ -52,6 +56,8 @@
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
+import $ from 'jquery';
 
 export default {
     name : 'CreateNewsView',
@@ -59,16 +65,135 @@ export default {
         Navbar,
         Sidebar,
     },
+    data(){
+      return {
+       news_name : "",
+       news_location : "",
+       news_category : "",
+       descriptions : "",
+       news_img : "",
+       file : {},
+       errors : {
+          news_name : {
+            hasError : false,
+            msg : "",
+          },
+          news_location : {
+            hasError : false,
+            msg : "",
+          },
+          news_category : {
+            hasError : false,
+            msg : "",
+          },
+          descriptions : {
+            hasError : false,
+            msg : "",
+          },
+          news_img : {
+            hasError : "",
+            msg : "",
+          }
+       },
+       status : "",
+      }
+    },
     methods : {
-      ...mapActions(['getUserInfo']),
+      async handleCreateNews(){
+          this.validateInput(this.news_name)
+          ? this.errors.news_name = { hasError : false , msg : "" }
+          : this.errors.news_name = { hasError : true , msg : "News name must not be empty!" };
+
+          this.validateInput(this.news_category)
+          ? this.errors.news_category = { hasError : false , msg : "" }
+          : this.errors.news_category = { hasError : true , msg : "News category must not be empty!" };
+
+          this.validateInput(this.news_location)
+          ? this.errors.news_location = { hasError : false , msg : "" }
+          : this.errors.news_location = { hasError : true , msg : "News location must not be empty!" };
+          
+          this.validateInput(this.descriptions)
+          ? this.errors.descriptions = { hasError : false , msg : "" }
+          : this.errors.descriptions = { hasError : true , msg : "Descriptions must not be empty!" };
+
+          this.validateImage(this.$refs.news_img.files[0]);
+
+          const data  = {
+            news_name : this.news_name,
+            news_category : this.news_category,
+            news_location  : this.news_location,
+            descriptions : this.descriptions,
+            news_img : this.news_img,
+            creator_id : parseInt(window.atob(this.userInfo.user_id)),
+          }
+
+          // console.log(data);
+
+          if(!this.errors.descriptions.hasError && !this.errors.news_category.hasError && !this.errors.news_img.hasError && !this.errors.news_location.hasError && !this.errors.news_name.hasError){
+
+            const upload = await axios.post(`http://localhost:8080/hexa/api/upload?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , 
+            {
+              file : this.file,
+            },{
+              headers : {
+                "Content-Type" : 'multipart/form-data'
+              }
+            });
+           
+           if(upload.data == "Success"){
+               const res = await axios.post(`http://localhost:8080/hexa/api/createnews?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , data );
+                if(res.data == "Success"){
+                    this.status = "Successfully Created!!";
+                    this.resetForm();
+                }
+            }
+            
+          }
+      },
+      resetForm(){
+        this.news_category = "",
+        this.news_img = {},
+        this.news_location = "",
+        this.news_name = "",
+        this.descriptions = "",
+
+        this.$refs.news_img.value = "";
+      },
+      validateImage( image ){
+  
+        if(image != undefined){
+
+            image.type == ("image/jpg" ||  "image/png" || "image/jpeg") || (image.name != "" && image.type == "")
+            ? this.errors.news_img = { hasError : true , msg : "This file type does not support!!" }
+            : this.errors.news_img = { hasError : false , msg : "" };
+
+            if(!this.errors.news_img.hasError){
+               this.file = image;
+               this.news_img = image.name;
+            }
+
+        }else{
+          this.errors.news_img = { hasError : true , msg : "News image must not be empty!!" }
+        }
+
+      },
+      validateInput( input ){
+          let isEmpty = input == "" ? true : false;
+          let isNull = input == null ? true : false;
+
+          return !isEmpty && !isNull;
+      },
+      ...mapActions(['getUserInfo','getCategories']),
     },
     computed : {
-      ...mapGetters(['userInfo','isLogin']),
+      ...mapGetters(['userInfo','isLogin','categories']),
     },
     mounted(){
        if(document.cookie != ""){
          this.getUserInfo();
       }
+
+      this.getCategories();
     }
 }
 </script>
