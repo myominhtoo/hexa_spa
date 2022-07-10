@@ -3,22 +3,17 @@
 
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar  :isLogin="isLogin" :userInfo="userInfo" />
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
 
-      <div v-if="cmtsInReporter.length">
+      <div v-if="cmtsInReporter != null && !isLoading">
           <Table :columns="columns"  :datas="cmtsInReporter">
-            <!-- <template v-slot:action>
-                <td class="d-flex gap-2 justify-content-center px-3">
-                  <router-link to="/admin/news/8/comments" class="btn btn-success btn-sm w-100">Detail{{  }}</router-link>
-                </td>
-              </template> -->
           </Table>
       </div>
 
-      <div v-else>
+      <div v-if="isLoading">
         Loading...
       </div>
 
@@ -31,6 +26,7 @@ import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
 import { mapActions, mapGetters } from 'vuex';
+import getSecret from '@/composables/getSecret';
 
 export default {
     name : 'NewsCommentsView',
@@ -42,7 +38,13 @@ export default {
     data(){
       return {
         columns : ["title","commenters_count","comments_count"],
+        isLoading : true,
       }
+    },
+    setup(){
+      const { decode } = getSecret();
+
+      return { decode };
     },
     methods : {
       ...mapActions(['getCmtsInReporter','getUserInfo'])
@@ -51,9 +53,12 @@ export default {
       ...mapGetters(['cmtsInReporter','userInfo','isLogin']),
     },
     mounted(){
-      this.getCmtsInReporter();
        if(document.cookie != ""){
          this.getUserInfo();
+
+         this.getCmtsInReporter(this.decode(this.userInfo.user_id));
+
+         this.isLoading = false;
       }
     }
 }

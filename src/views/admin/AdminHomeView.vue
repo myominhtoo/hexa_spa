@@ -3,7 +3,7 @@
 
     <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar :userInfo="userInfo" :isLogin="isLogin" />
 
         <Welcome/>

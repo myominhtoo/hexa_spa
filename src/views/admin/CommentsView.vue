@@ -3,7 +3,7 @@
 
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
      
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>

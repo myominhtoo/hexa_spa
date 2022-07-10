@@ -4,7 +4,7 @@
 
     <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
-    <div v-if="categories.length" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
+    <div v-if="categories != null" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
       <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
     </div>
 
@@ -18,7 +18,7 @@
     </div>
 
     <!-- news -->
-    <div v-if="allNews.length" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
+    <div v-if="allNews != null" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
       <span class="h2 text-start text-danger fw-bold my-5">News</span>
 
       <div id="news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap mx-auto">

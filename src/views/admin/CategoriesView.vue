@@ -3,15 +3,26 @@
 
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
          <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
 
-        <div v-if="categories.length > 0">
-           <Table :columns="columns" :datas="categories">
+        <div v-if="categories != null && !isLoading">
+           <Table :columns="columns" :datas="categories" :hasAction="false">
+              <!-- <template v-slot:action>
+                  <td class="d-flex gap-2 justify-content-start px-3">
+                    <button class="btn btn-warning btn-sm">Update</button>
+                    <button class="btn btn-danger btn-sm ">Delete</button>
+                  </td>
+              </template> -->
+          </Table>
+        </div>
+
+         <div v-if="fullCategories != null && !isLoading">
+           <Table :columns="adminColumns" :datas="fullCategories">
               <template v-slot:action>
-                  <td class="d-flex gap-2 justify-content-center px-3">
+                  <td class="d-flex gap-2 justify-content-start px-3">
                     <button class="btn btn-warning btn-sm">Update</button>
                     <button class="btn btn-danger btn-sm ">Delete</button>
                   </td>
@@ -19,7 +30,7 @@
           </Table>
         </div>
         
-        <div v-else>
+        <div v-if="isLoading">
            Loading...
         </div>
     </div>
@@ -41,20 +52,27 @@ export default {
     },
     data(){
       return {
-        columns : ["news_category_name"],
+        columns :['news_category_name'],
+        isLoading : true,
+        adminColumns : ['news_category_name','news_count']
       }
     },
     methods : {
-      ...mapActions(['getCategories','getUserInfo']),
+      ...mapActions(['getCategories','getUserInfo','getFullCategories']),
     },
     computed : {
-      ...mapGetters(['categories','userInfo','isLogin']),
+      ...mapGetters(['categories','userInfo','isLogin','fullCategories']),
     },
     mounted(){
-      this.getCategories();
 
       if(document.cookie != ""){
          this.getUserInfo();
+
+          window.atob(this.userInfo.user_role) == 'admin'
+          ?  this.getFullCategories()
+          : this.getCategories();
+
+         this.isLoading = false;
       }
     }
 }

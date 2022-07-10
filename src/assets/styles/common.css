@@ -256,3 +256,7 @@ i.error{
     font-size:18px;
     font-weight: bold;
 }
+
+.btn-thm{
+    background-color: var(--thm);
+}

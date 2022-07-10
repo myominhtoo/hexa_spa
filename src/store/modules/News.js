@@ -3,9 +3,9 @@ import axios from "axios"
 export default {
     state : {
         newsInPage : [],//for pagination
-        allNews : [],//for all news in home page
+        allNews : null,//for all news in home page
         todayNews : [],//for today news in home page
-        wroteNews : [],//for news in panel that wrote by reporter
+        wroteNews : null,//for news in panel that wrote by reporter
         otherNews : [],//news in detail page to show as latest news
         news : {}, // to read in detail page
         totalPage : 1,
@@ -86,6 +86,12 @@ export default {
             dispatch('getNewsInPage',{ allNews : res.data , pageFrom : infos.pageFrom , maxPerPage : infos.maxPerPage});
             
             commit('setTotalPage',Math.ceil(res.data.length/infos.maxPerPage));
+            
+            commit('setAllNews',res.data);
+         },
+
+         async getAllNewsForAdmin( { commit }){
+            const res = await axios.get('http://localhost:8080/hexa/api/news');
             
             commit('setAllNews',res.data);
          },

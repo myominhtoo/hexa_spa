@@ -2,7 +2,7 @@ import axios from "axios"
 
 export default {
     state : {
-        cmtsInReporter : [],//in reporter panel when see cmts in reporter created
+        cmtsInReporter : null,//in reporter panel when see cmts in reporter created
         cmtsInNews : [],//in reporter panel when see one news post' comment
         publicComments : [],
     },

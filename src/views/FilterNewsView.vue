@@ -3,7 +3,7 @@
     <section id="public-home-main" class="container-fluid p-0 row m-0">
         <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
-        <div v-if="categories.length && typeof $route.query.category == 'string'" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
+        <div v-if="categories != null && typeof $route.query.category == 'string'" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
             <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
         </div>
 

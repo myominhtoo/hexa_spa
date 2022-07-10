@@ -3,7 +3,7 @@
 
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
         <h1 class="my-5 thm h3 fw-bold">CREATE NEWS HERE!</h1>
@@ -19,7 +19,7 @@
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Category</label>
-            <select v-model="news_category" v-if="categories.length > 0" name="" id="" class="form-select text-capitalize">
+            <select v-model="news_category" v-if="categories != null" name="" id="" class="form-select text-capitalize">
               <option value="" selected disabled>Choose News' Category</option>
               <option v-for="c in categories" :key="c.news_category_id" class="text-capitalize" :value="c.news_category_id">{{ c.news_category_name }}</option>
             </select>

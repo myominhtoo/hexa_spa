@@ -3,24 +3,37 @@
 
     <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
-    <div id="admin-main" class="w-85">
+    <div id="admin-main" class="w-85 pb-5">
         <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
         <h1 class="my-5 thm h3 fw-bold">NEWS' INFORMATION</h1>
 
-        <div v-if="wroteNews.length > 0">
+        <div v-if="wroteNews != null && !isLoading">
              <Table :columns="columns" :datas="wroteNews">
                 <template v-slot:action>
                   <td class="d-flex gap-2 justify-content-center">
                     <button class="btn btn-warning btn-sm">Update</button>
 
-                    <button class="btn btn-danger btn-sm">Delete</button>
+                    <button class="btn btn-danger btn-sm txt-light fw-bold">Delete</button>
                   </td>
                 </template>
             </Table>
         </div>
 
-        <div v-else>
+
+         <div v-else-if="allNews != null && !isLoading">
+             <Table :columns="columns" :datas="allNews">
+                <template v-slot:action>
+                  <td class="d-flex gap-2 justify-content-center">
+                    <button class="btn btn-warning btn-sm">Update</button>
+
+                    <button class="btn btn-danger btn-sm txt-light fw-bold">Delete</button>
+                  </td>
+                </template>
+            </Table>
+        </div>
+
+        <div v-if="isLoading">
            Loading...
         </div>
     </div>
@@ -32,6 +45,7 @@ import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
 import { mapActions, mapGetters } from 'vuex';
+import getSecret from '@/composables/getSecret';
 
 export default {
     name : 'NewsView',
@@ -43,18 +57,30 @@ export default {
     data(){
       return {
         columns : ["news_name","news_category_name","creator_name","created_date"],
+        isLoading : true,
       }
     },
+    setup(){
+      const { encode , decode} = getSecret();
+
+      return { encode ,decode };
+    },
     methods : {
-      ...mapActions(['getWroteNews','getUserInfo']),
+      ...mapActions(['getWroteNews','getUserInfo','getAllNewsForAdmin']),
     },
     computed : {
-      ...mapGetters(['wroteNews','userInfo','isLogin']),
+      ...mapGetters(['wroteNews','userInfo','isLogin','allNews']),
     },
     mounted(){
-      this.getWroteNews();
        if(document.cookie != ""){
          this.getUserInfo();
+
+         this.decode(this.userInfo.user_role) == 'admin'
+         ? this.getAllNewsForAdmin()
+         : this.getWroteNews(this.decode(this.userInfo.user_id));
+
+         this.isLoading = false;
+
       }
     }
 
