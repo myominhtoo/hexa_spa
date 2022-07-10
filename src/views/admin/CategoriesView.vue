@@ -8,7 +8,7 @@
 
          <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
 
-        <div v-if="categories != null && !isLoading">
+        <div v-if="categories != null && !isLoading ">
            <Table :columns="columns" :datas="categories" :hasAction="false">
               <!-- <template v-slot:action>
                   <td class="d-flex gap-2 justify-content-start px-3">
@@ -58,7 +58,7 @@ export default {
       }
     },
     methods : {
-      ...mapActions(['getCategories','getUserInfo','getFullCategories']),
+      ...mapActions(['getCategories','getUserInfo','getFullCategories','removeCategories']),
     },
     computed : {
       ...mapGetters(['categories','userInfo','isLogin','fullCategories']),
@@ -67,6 +67,8 @@ export default {
 
       if(document.cookie != ""){
          this.getUserInfo();
+
+         this.removeCategories();
 
           window.atob(this.userInfo.user_role) == 'admin'
           ?  this.getFullCategories()

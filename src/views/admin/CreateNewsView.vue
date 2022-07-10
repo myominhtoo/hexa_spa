@@ -194,6 +194,6 @@ export default {
       }
 
       this.getCategories();
-    }
+    },
 }
 </script>

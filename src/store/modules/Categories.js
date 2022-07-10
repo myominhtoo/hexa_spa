@@ -21,6 +21,10 @@ export default {
 
         setFullCategories( state , datas ){
             state.fullCategories = datas;
+        },
+
+        unsetCategories( state , datas ){
+            state.categories = datas;
         }
     },
     actions : {
@@ -33,9 +37,11 @@ export default {
         async getFullCategories( { commit }){
             const res = await axios.get('http://localhost:8080/hexa/api/fullcategories');
 
-            console.log(res.data);
-
             commit('setFullCategories' , res.data);
+        },
+
+        removeCategories({ commit }){
+            commit('unsetCategories', null );
         }
     }
 }
