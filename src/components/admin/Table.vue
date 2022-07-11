@@ -9,7 +9,7 @@
     </thead>
 
     <tbody>
-        <tr v-for="(data,index) in datas" :key="index">
+        <tr v-for="(data,index) in datas" :key="datas[index]" :data-category="data.news_category_id != null ?  data.news_category_id : ''" >
             <td class="text-start">{{ index + 1 }}</td>
             <td v-for="column in columns" :key="column" class="text-start" :class="{'text-capitalize' : column.includes('email') ? false : true}">
                 <span v-if="column != 'user_role_name'">{{data[column] }}</span>
@@ -55,16 +55,41 @@ export default {
             default : true,
         }
     },
+    data(){
+        return {
+            table : null,
+        }
+    },
     setup(){
-        return { getFormat }
+        const fixTablePosition = () => {
+              $("#table_info").css("display","none");
+              $("#table_length").css({"transform":"translateX(110%)","margin":"20px 0"});
+              $("#table_filter label").addClass("d-flex align-items-center gap-1");
+              $("#table_filter label input").addClass("form-control d-inline");
+              $("#table_filter").css({"transform":"translateX(-68%)","margin":"20px 0"});
+              $("#table_paginate").css("transform","translateX(-70%)");
+              $("#table_paginate span").addClass("shadow-sm");
+        }
+
+        return { getFormat , fixTablePosition }
     },  
     mounted (){
-        $("#table").DataTable();
+        this.table = $("#table").DataTable();
+        this.fixTablePosition();
 
-        $("#table_info").css("display","none");
-        $("#table_length").css({"transform":"translateX(50%)","margin":"20px 0"});
-        $("#table_filter").css({"transform":"translateX(-50%)","margin":"20px 0"});
-        $("#table_paginate").css("transform","translateX(-50%)");
+        this.$watch(
+            () => this.datas,
+            () => {
+               this.table.destroy();
+                setTimeout(() => {
+                     this.table = $("#table").DataTable({
+                        "lengthMenu": [ 10, 25, 50, 75, 100 ],
+                        "pageLength": 10
+                    });
+                     this.fixTablePosition();
+                });
+            }
+        )
     }
 }
 </script>
