@@ -12,6 +12,7 @@ import NewsCommentsView from '../views/admin/NewsCommentsView.vue';
 import CommentsView from '../views/admin/CommentsView.vue';
 import CreateNewsView from '../views/admin/CreateNewsView.vue';
 import FilterNewsView from '../views/FilterNewsView.vue';
+import UpdateNewsView from '@/views/admin/UpdateNewsView.vue'
 
 import getRouteGuard from '@/router/helper/getRouteGuard.js'
 
@@ -95,6 +96,13 @@ const routes = [
     path : '/admin/createnews',
     name : 'dashboardCreateNews',
     component : CreateNewsView,
+    beforeEnter : [ forAdminAndReporter ],
+  },
+
+  {
+    path : '/admin/news/:newsId/update',
+    name : 'dashboardUpdateNews',
+    component : UpdateNewsView,
     beforeEnter : [ forAdminAndReporter ],
   }
 ]

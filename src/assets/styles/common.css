@@ -117,8 +117,9 @@ i.error{
 /* news title & location */
 .news-title{
     color:var(--thm);
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
+    line-height: 1;
 }
 
 

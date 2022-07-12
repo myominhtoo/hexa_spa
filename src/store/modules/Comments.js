@@ -3,7 +3,7 @@ import axios from "axios"
 export default {
     state : {
         cmtsInReporter : null,//in reporter panel when see cmts in reporter created
-        cmtsInNews : [],//in reporter panel when see one news post' comment
+        cmtsInNews : null,//in reporter panel when see one news post' comment
         publicComments : [],
     },
     getters : {
@@ -39,6 +39,7 @@ export default {
         },
 
         async getCmtsInNews({ commit } , info ){
+            console.log(info)
             const res = await axios.get(`http://localhost:8080/hexa/api/users/${info.userId}/news/${info.newsId}/comments`);
 
             commit('setCmtsInNews' , res.data);

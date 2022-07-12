@@ -6,11 +6,10 @@
     <div id="admin-main" class="w-85 pb-5">
         <Navbar :isLogin="isLogin" :userInfo="userInfo" />
 
-        <h1 class="my-5 thm h3 fw-bold">CREATE NEWS HERE!</h1>
-         
+        <h1 class="my-5 thm h3 fw-bold">UPDATE NEWS HERE!</h1>
 
-        <form @submit.prevent="handleCreateNews" action="" class="card w-75 mx-auto p-3 text-start" enctype="multipart/form-data">
-          <p v-if="status != ''" id="success" class="my-3 text-success text-start p-2">{{ status }}</p>
+        <p v-if="status != '' && statusError" id="status" class="my-3 text-danger text-start p-2 w-75 mx-auto">{{ status }}</p>
+        <form @submit.prevent="handleUpdateNews" action="" class="card w-75 mx-auto p-3 text-start" enctype="multipart/form-data">
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Title</label>
             <input v-model="news_name" type="text" class="form-control" placeholder="e.g title about what happened">
@@ -38,14 +37,15 @@
             <span v-if="errors.descriptions.hasError && errors.descriptions.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.descriptions.msg }}</span>
           </div>
 
-          <div class="form-group my-2">
-            <label for="" class="form-label fw-bold txt-dark">News' Image</label>
-            <input ref="news_img" type="file" class="form-control" id="file">
+          <div class="form-group my-2 d-flex flex-column ">
+            <label for="" class="form-label fw-bold txt-dark">News' Image <span @click="resetToOriginImage"  v-if="showResetImgBtn" class="text-primary text-decoration-underline fw-bold mx-2" style="font-size:13px;">Reset Image</span></label>
+            <img :src="'http://localhost:8080/img/'+news_img" class="my-2" alt="image" style="width:400px;height:250px;">
+            <input @change="validateImage($refs.news_img.files[0])" ref="news_img" type="file" class="form-control" id="file" />
             <span v-if="errors.news_img.hasError && errors.news_img.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.news_img.msg }}</span>
           </div>
 
           <div class="form-group my-2">
-            <button class="btn btn-primary w-100">CREATE</button>
+            <button class="btn btn-primary w-100">UPDATE</button>
           </div>
         </form>
     </div>
@@ -60,19 +60,22 @@ import axios from 'axios';
 import $ from 'jquery';
 
 export default {
-    name : 'CreateNewsView',
+    name : 'UpdateNewsView',
     components : {
         Navbar,
         Sidebar,
     },
     data(){
       return {
+       showResetImgBtn : false,
+       news_id : "",
+       prev_img : "",
        news_name : "",
        news_location : "",
-       news_category : "",
+       news_category : "hello",
        descriptions : "",
        news_img : "",
-       file : {},
+       file : {}, 
        errors : {
           news_name : {
             hasError : false,
@@ -96,10 +99,26 @@ export default {
           }
        },
        status : "",
+       statusError : false,
       }
     },
     methods : {
-      async handleCreateNews(){
+        test(){
+            console.log("changes")
+        },
+      async getNewsData( newsId ){
+        const data = await axios.get(`http://localhost:8080/hexa/api/news/${newsId}`).then( res => res.data);
+
+         this.news_name = data.news_name;
+         this.news_location = data.news_location;
+         this.news_category = data.news_category;
+         this.news_img  = data.news_img;
+         this.prev_img = data.news_img;
+         this.news_id = data.news_id;
+         this.descriptions = data.descriptions;
+
+      },
+      async handleUpdateNews(){
           this.validateInput(this.news_name)
           ? this.errors.news_name = { hasError : false , msg : "" }
           : this.errors.news_name = { hasError : true , msg : "News name must not be empty!" };
@@ -116,7 +135,11 @@ export default {
           ? this.errors.descriptions = { hasError : false , msg : "" }
           : this.errors.descriptions = { hasError : true , msg : "Descriptions must not be empty!" };
 
-          this.validateImage(this.$refs.news_img.files[0]);
+          let image = this.$refs.news_img.files[0];
+
+          if( image  != undefined ){
+             this.validateImage(image);
+          }
 
           const data  = {
             news_name : this.news_name,
@@ -124,29 +147,33 @@ export default {
             news_location  : this.news_location,
             descriptions : this.descriptions,
             news_img : this.news_img,
+            news_id : this.news_id,
             creator_id : parseInt(window.atob(this.userInfo.user_id)),
           }
 
-          // console.log(data);
+
 
           if(!this.errors.descriptions.hasError && !this.errors.news_category.hasError && !this.errors.news_img.hasError && !this.errors.news_location.hasError && !this.errors.news_name.hasError){
-
-            const upload = await axios.post(`http://localhost:8080/hexa/api/upload?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , 
-            {
-              file : this.file,
-            },{
-              headers : {
-                "Content-Type" : 'multipart/form-data'
-              }
-            });
-           
-           if(upload.data == "Success"){
-               const res = await axios.post(`http://localhost:8080/hexa/api/createnews?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , data );
-                if(res.data == "Success"){
-                    this.status = "Successfully Created!!";
-                    this.resetForm();
-                }
+            
+            if(this.$refs.news_img.files[0] != undefined){
+                  const  upload = await axios.post(`http://localhost:8080/hexa/api/upload?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , 
+                                        {
+                                            file : this.file,
+                                        },{
+                                             headers : {
+                                                "Content-Type" : 'multipart/form-data'
+                                        }
+                                   });            
             }
+    
+            const res = await axios.put(`http://localhost:8080/hexa/api/news/${this.news_id}/update?email=${window.atob(this.userInfo.user_email)}&_token=${window.atob(this.userInfo._token)}` , data );
+             
+             if(res.status == 200 ){
+                    this.$router.push("/admin/news?status=Successfully Updated!");
+             }else{
+                this.statusError = true;
+                this.status = "Something went wrong!";
+             }
             
           }
       },
@@ -171,6 +198,7 @@ export default {
                this.file = image;
                this.news_img = image.name;
             }
+             this.showResetImgBtn  = true;
 
         }else{
           this.errors.news_img = { hasError : true , msg : "News image must not be empty!!" }
@@ -183,6 +211,13 @@ export default {
 
           return !isEmpty && !isNull;
       },
+      resetToOriginImage(){
+        this.news_img = this.prev_img;
+        this.$refs.news_img.value = "";
+        this.errors.news_img = { hasError : false , msg : "" };
+
+        this.showResetImgBtn = false;
+      },
       ...mapActions(['getUserInfo','getCategories']),
     },
     computed : {
@@ -191,6 +226,8 @@ export default {
     mounted(){
        if(document.cookie != ""){
          this.getUserInfo();
+        
+        this.getNewsData( parseInt(this.$route.params.newsId) );
       }
 
       this.getCategories();

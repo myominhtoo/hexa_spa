@@ -7,7 +7,6 @@
         <Navbar  :isLogin="isLogin" :userInfo="userInfo" />
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
-
       <div v-if="cmtsInReporter != null && !isLoading">
           <Table :columns="columns"  :datas="cmtsInReporter">
           </Table>

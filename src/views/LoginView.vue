@@ -46,6 +46,8 @@
 import axios from 'axios';
 import { encode , decode } from '@/composables/getSecret.js';
 import Footer from '../components/public/Footer.vue';
+import getCookie from '@/router/helper/getCookie';
+import getClearCookie from '@/composables/getClearCookie.js';
 
 export default {
   name : 'LoginView',
@@ -71,7 +73,9 @@ export default {
       }
     }
   },
-
+  setup(){
+     return { getCookie , getClearCookie }
+  },
   methods : {
     async handleLoginSubmit(){
       
@@ -92,9 +96,17 @@ export default {
             this.errors.user_email = { hasError : true , msg : "Invalid Email or Password!" };
             this.errors.user_password = { hasError : true , msg : "Invalid Email or Password! " };
          }else{      
+            let cookieInfos = this.getCookie();
+
+            if(cookieInfos != "" || null ){
+              console.log("did")
+                this.getClearCookie(cookieInfos)
+            }
+
             document.cookie = `user_name=${this.encode(user.user_name)}; `;
             document.cookie = `user_id=${this.encode(user.user_id)}; `;
             document.cookie = `user_email=${this.encode(user.user_email)}; `;
+            document.cookie = `code=${this.encode(this.encode(user.user_password))}`
             document.cookie = `user_role=${this.encode(user.user_role)}; `;
             document.cookie = `_token=${this.encode(user._token)}; `;
             

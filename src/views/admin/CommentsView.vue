@@ -8,17 +8,20 @@
 
        <h1 class="my-5 thm h3 fw-bold">NEWS' COMMENTS</h1>
 
-      <div v-if="cmtsInNews.length">
+
+      <p v-if="status != '' && status != null" class="fw-bold w-75 mx-auto text-start"> <span :class="{'text-success' : hasError ? false : true , 'text-danger' : hasError ? true : false }"> {{ status }} </span></p>
+
+      <div v-if="cmtsInNews != null">
           <Table :columns="columns"  :datas="cmtsInNews">
             <template v-slot:action>
                 <td class="d-flex gap-2 justify-content-center px-3">
-                  <button class="btn btn-danger btn-sm w-100">Delete</button>
+                  <button @click="handleDeleteComment" class="btn btn-danger btn-sm w-100">Delete</button>
                 </td>
               </template>
           </Table>
       </div>
 
-      <div v-else>
+      <div v-if="isLoading">
         Loading...
       </div>
 
@@ -31,6 +34,8 @@ import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 export default {
     name : 'CommentsView',
@@ -41,10 +46,53 @@ export default {
     },
     data(){
       return {
+        isLoading : true,
+        status : "",
+        hasError : false,
         columns : ["comment","commented_user","commented_date"],
       }
     },
     methods : {
+      async handleDeleteComment(e){
+        let targetValue  = e.target.parentNode.parentNode.getAttribute("data-comment");
+        let commentId = targetValue == "" || isNaN(targetValue) ? "" : parseInt(targetValue);
+        let newsId = this.$route.params.newsId;
+        newsId = newsId == "" || isNaN(newsId) ? "" : parseInt(newsId);
+
+        if(commentId != "" && newsId ){
+            swal({
+              text : "Are you sure to delete this comment?",
+              icon : "warning",
+              buttons : ["No","Yes"]
+            }).then(async willDelete => {
+
+              if(willDelete){
+                await axios.delete(`http://localhost:8080/hexa/api/news/${newsId}/comments/${commentId}`)
+                .then( res => {
+                    if(res.status == 200){
+                      this.status = "Succesfully Deleted!";
+                      this.hasError = false;
+                      this.getCmtsInNews({ userId : window.atob(this.userInfo.user_id) , newsId : newsId });
+                      this.removeStatusAuto( 3000 );
+                    }else{
+                      this.status = "Something went wrong!";
+                      this.hasError = true;
+                      this.removeStatusAuto( 3000 );
+                    }
+                }).catch(e => {
+                  console.log("Error happened in deleting comment!");
+                });
+              }
+            });
+        }
+      },
+      removeStatusAuto( wait ){
+        setTimeout(
+          () => {
+            this.status = "";
+            this.hasError = false;
+          } , wait );
+      },
       ...mapActions(['getCmtsInNews','getUserInfo'])
     },
     computed : {
@@ -53,8 +101,9 @@ export default {
     mounted(){
       if(document.cookie != ""){
          this.getUserInfo();
+         this.getCmtsInNews({ userId : window.atob(this.userInfo.user_id) , newsId : this.$route.params.newsId});
+         this.isLoading = false;
       }
-      this.getCmtsInNews({ userId : 17 , newsId : this.$route.params.newsId});
     }
 }
 </script>

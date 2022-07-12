@@ -6,7 +6,7 @@
     <div id="admin-main" class="w-85 pb-5">
         <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
 
-         <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
+        <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
         <div v-if="fullCategories != null && categories == null"  class="container p-0" :class="{'text-end' : status == '' ? true : false , 'd-flex justify-content-between' : status == '' ? false : true}">
             <p v-show="status != ''" class="fw-bold" style="transform:translateX(70%);"><span :class="{'text-success' : statusError ? false : true , 'text-danger' : statusError ? true : false}">{{ status }}</span></p>
            <button class="btn btn-sm txt-light fw-bold btn-success text-end" style="transform:translateX(-150%);" data-bs-toggle="modal" data-bs-target="#create-modal"><i class="fa-solid fa-circle-plus mx-1" ></i>Create</button>
@@ -147,6 +147,8 @@ export default {
               this.getFullCategories();
               this.error = { hasError  : false  , msg : "" };
               $('#create-modal .btn-close').click();
+               this.status = "Successfully Created!";
+               this.statusError = false;
               this.hideStatusAuto(5000);
            }
         }
@@ -213,6 +215,7 @@ export default {
                     }else{
                       this.status = "Something went wrong!";
                       this.statusError = true;
+                       this.hideStatusAuto(5000);
                     }
                 }
               })

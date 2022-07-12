@@ -9,7 +9,7 @@
     </thead>
 
     <tbody>
-        <tr v-for="(data,index) in datas" :key="datas[index]" :data-category="data.news_category_id != null ?  data.news_category_id : ''" >
+        <tr v-for="(data,index) in datas" :key="datas[index]" :data-category="data.news_category_id != null ?  data.news_category_id : ''" :data-comment="data.comment_id != null ? data.comment_id : ''"  :data-news="data.news_id != null ? data.news_id : ''" >
             <td class="text-start">{{ index + 1 }}</td>
             <td v-for="column in columns" :key="column" class="text-start" :class="{'text-capitalize' : column.includes('email') ? false : true}">
                 <span v-if="column != 'user_role_name'">{{data[column] }}</span>
