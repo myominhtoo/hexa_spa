@@ -1,6 +1,6 @@
 <template>
-    <section id="welcome" class="mx-3 my-5 p-2 px-5 alert-success d-flex justify-content-between align-items-center">
-        <h3 class="h3 fw-bold" id="name">Welcome Lionel!</h3>
+    <section id="welcome" class="my-5 p-2 px-5 bg-dark d-flex justify-content-between align-items-center txt-light mx-auto">
+        <h3 v-if="isLogin && userInfo != ''"  class="h3 fw-bold" id="name">Welcome <span class="text-capitalize">{{ decode(userInfo.user_name) }}!</span> </h3>
 
         <p id="tdy-date" class="h6 fw-bold">
             <span id="year" class="mx-1">{{ year }}</span>
@@ -11,14 +11,29 @@
 </template>
 
 <script>
+import getSecret from '@/composables/getSecret';
+
+
 export default {
     name : 'Welcome',
+    props : {
+        isLogin : {
+            type : Boolean,
+            default : false,
+        },
+        userInfo : "",
+    },
     data(){
         return {
             year : "",
             dayName : "",
             day : "",
         }
+    },
+    setup(){
+        const { decode } = getSecret();
+
+        return { decode };
     },
     methods : {
         getDayName(day){
@@ -34,7 +49,7 @@ export default {
                 default : name = "Error";
             }
             return name;
-        }
+        },
     },
     created(){
         const date = new Date();

@@ -262,3 +262,41 @@ i.error{
 .btn-thm{
     background-color: var(--thm);
 }
+
+#welcome{
+    width:90% !important;
+    border-radius: 8px;
+}
+
+#box{
+    border-radius: 8px;
+}
+
+#welcome , #box{
+    box-shadow: -4px 4px 2px var(--thm);
+    transition: 0.5s all;
+}
+
+#welcome:hover , #box:hover{
+    box-shadow: -6px 6px 3px var(--thm);
+    margin-left:1px;
+    margin-bottom: 1px;
+    cursor: pointer;
+}
+
+#chart-wrapper{
+   height:500px !important;
+   max-height:600px;
+}
+
+#admin-chart{
+    height:450px;
+    max-height:450px;
+}
+
+#year-btn{
+    box-shadow:0 0 3px rgba(0, 0, 0, 0.75);
+    border-radius: 3px;
+    border:none;
+    color: var(--txt-dark);
+}

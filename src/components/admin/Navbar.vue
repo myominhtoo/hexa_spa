@@ -4,7 +4,7 @@
             <router-link  to="/admin" class="h3 fw-bold txt-dark navbar-brand">HEXA</router-link>
 
             <div class="navbar-nav d-flex align-items-center gap-3">
-                <li class="nav-item fw-bold txt-dark " v-if="isLogin && userInfo != ''"><span class="mx-1 txt-dark text-capitalize">{{ decode(userInfo.user_name) }}</span><span class="mx-1 p-2 thm shadow-sm text-capitalize">{{ decode(userInfo.user_role) }}</span></li>
+                <li class="nav-item fw-bold txt-dark " v-if="isLogin && userInfo != ''"><span class="mx-1 txt-dark text-capitalize">{{ decode(userInfo.user_name) }}</span><span class="mx-1 p-2 text-primary shadow-sm ">{{ decode(userInfo.user_role) }}</span></li>
                 <li @click="handleLogout(userInfo)" class="nav-item p-2 fw-bold shadow-sm text-danger">Logout</li>
             </div>
         </div>

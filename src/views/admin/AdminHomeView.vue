@@ -1,18 +1,20 @@
 <template>
-  <main id="admin-home" class="container-fluid p-0 m-0 d-flex">
+  <main id="admin-home" class="container-fluid p-0 m-0 d-flex ">
 
     <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
         <Navbar :userInfo="userInfo" :isLogin="isLogin" />
 
-        <Welcome/>
+        <Welcome :userInfo="userInfo" :isLogin="isLogin"/>
 
-        <div class="container row justify-content-center gap-2">
+        <div class="container row justify-content-center gap-3 mx-auto">
            <Box :info="{name : 'Reporters' , icon : 'fa-solid fa-bullhorn txt-light h5' , count : '10'}"/>
            <Box :info="{name : 'Users' , icon : 'fa-solid fa-users txt-light h5' , count : '10'}"/>
-           <Box :info="{name : 'Today News' , icon : 'fa-solid fa-newspaper txt-light h5' , count : '10'}"/>
+           <Box :info="{name : 'Total News' , icon : 'fa-solid fa-newspaper txt-light h5' , count : '10'}"/>
         </div>
+
+        <AdminChart />
 
     </div>
   </main>
@@ -24,6 +26,7 @@ import Navbar from '../../components/admin/Navbar.vue';
 import Welcome from '../../components/admin/Welcome.vue';
 import Box from '../../components/admin/Box.vue';
 import { mapActions, mapGetters } from 'vuex';
+import AdminChart from '@/components/admin/AdminChart.vue';
 
 export default {
     name : 'AdminHomeView',
@@ -31,7 +34,8 @@ export default {
         Navbar,
         Sidebar,
         Welcome,
-        Box
+        Box,
+        AdminChart
     },
     methods : {
       ...mapActions(['getUserInfo']),
