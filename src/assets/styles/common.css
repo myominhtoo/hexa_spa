@@ -119,7 +119,8 @@ i.error{
     color:var(--thm);
     font-size: 15px;
     font-weight: bold;
-    line-height: 1;
+    line-height: 1.3;
+    
 }
 
 

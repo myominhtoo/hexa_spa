@@ -8,7 +8,7 @@
 
         <h1 class="my-5 thm h3 fw-bold">NEWS' INFORMATION</h1>
 
-        <p v-if="$route.query.status != undefined || status != ''" id="status" class="fw-bold text-success fw-bold w-75 mx-auto">{{ $route.query.status }} <span :class="{'text-danger' : hasError ? true : false}">{{ status }}</span></p>
+        <p v-if="$route.query.status != undefined || status != ''" id="status" class="fw-bold text-success fw-bold w-75 mx-auto text-start">{{ $route.query.status }} <span :class="{'text-danger' : hasError ? true : false}">{{ status }}</span></p>
 
         <div v-if="wroteNews != null && !isLoading">
              <Table :columns="columns" :datas="wroteNews">
@@ -150,6 +150,12 @@ export default {
          this.handleFetchNews();
          this.isLoading = false;
 
+      }
+
+      if(this.$route.query.status != undefined){
+        setTimeout(() => {
+          this.$router.replace({ query : {}});
+        } , 3000 )
       }
     }
 

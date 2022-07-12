@@ -19,7 +19,7 @@
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Category</label>
-            <select v-model="news_category" v-if="categories != null" name="" id="" class="form-select text-capitalize">
+            <select v-model="news_category" v-if="categories != null"  class="form-select text-capitalize">
               <option value="" selected disabled>Choose News' Category</option>
               <option v-for="c in categories" :key="c.news_category_id" class="text-capitalize" :value="c.news_category_id">{{ c.news_category_name }}</option>
             </select>
@@ -34,7 +34,7 @@
 
           <div class="form-group my-2">
             <label for="" class="form-label fw-bold txt-dark">News' Content</label>
-            <textarea v-model="descriptions" name="" id="" cols="30" rows="10" class="form-control" placeholder="e.g detail about what happened"></textarea>
+            <textarea v-model="descriptions" cols="30" rows="10" class="form-control" placeholder="e.g detail about what happened"></textarea>
             <span v-if="errors.descriptions.hasError && errors.descriptions.msg != ''" id="error" class="fw-bold text-danger my-1">{{ errors.descriptions.msg }}</span>
           </div>
 
