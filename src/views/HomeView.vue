@@ -2,7 +2,7 @@
 
   <section id="public-home-main" class="container-fluid p-0 row m-0">
 
-    <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
+    <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin"/>
 
     <div v-if="categories != null" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
       <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
@@ -50,6 +50,7 @@ import News from '../components/public/News.vue';
 import Pagination from '../components/public/Pagination.vue';
 import { mapActions , mapGetters } from 'vuex';
 import $ from 'jquery';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 
 export default {
@@ -67,6 +68,11 @@ export default {
       max : 9,
       curPage : 1,
     }
+  },
+  setup(){
+    const { updateInfo } = getUpdateInfo();
+
+    return { updateInfo };
   },
   methods : {
     goTo(page){

@@ -1,7 +1,7 @@
 <template>
     
     <section id="public-home-main" class="container-fluid p-0 row m-0">
-        <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin"/>
 
         <div v-if="categories != null && typeof $route.query.category == 'string'" id="categories" class="container my-5 d-flex justify-content-center gap-2 flex-wrap">
             <Category v-for="category in categories" :key="category" :text="category.news_category_name" :id="category.news_category_id" />
@@ -40,6 +40,7 @@ import FilterNews from '@/components/public/FilterNews.vue';
 import Search from '@/components/public/Search.vue';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'FilterNewsView',
@@ -61,6 +62,11 @@ export default {
             pageWatcher : null,
             searchWatcher : null,
         }
+    },
+    setup(){
+        const {  updateInfo } = getUpdateInfo();
+
+        return { updateInfo };
     },
     methods : {
         async fetchNewsByCategory( categoryId ){

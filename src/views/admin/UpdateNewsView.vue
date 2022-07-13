@@ -4,7 +4,7 @@
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
-        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin" />
 
         <h1 class="my-5 thm h3 fw-bold">UPDATE NEWS HERE!</h1>
 
@@ -55,9 +55,10 @@
 <script>
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters , useStore } from 'vuex';
 import axios from 'axios';
 import $ from 'jquery';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'UpdateNewsView',
@@ -101,6 +102,10 @@ export default {
        status : "",
        statusError : false,
       }
+    },
+    setup(){
+    const { updateInfo } = getUpdateInfo();
+      return { updateInfo };
     },
     methods : {
         test(){

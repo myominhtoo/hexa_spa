@@ -57,6 +57,7 @@ export default {
         async getEmails( { commit }){
             const res = await axios.get('http://localhost:8080/hexa/api/emails');
 
+
             let email = res.data.map( d => {
                 return d.user_email;
             });            
@@ -79,7 +80,7 @@ export default {
                 } , {} )  
             
             }
-                
+                 
             commit('setIsLogin', data == "" ? false : true );
             commit('setUserInfo',data);
         },

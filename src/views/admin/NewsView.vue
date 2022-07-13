@@ -4,7 +4,7 @@
     <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
-        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin" />
 
         <h1 class="my-5 thm h3 fw-bold">NEWS' INFORMATION</h1>
 
@@ -46,9 +46,10 @@
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters , useStore } from 'vuex';
 import getSecret from '@/composables/getSecret';
 import axios from 'axios';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'NewsView',
@@ -67,8 +68,9 @@ export default {
     },
     setup(){
       const { encode , decode} = getSecret();
+      const { updateInfo } = getUpdateInfo();
 
-      return { encode ,decode };
+      return { encode ,decode , updateInfo };
     },
     methods : {
       handleNewsUpdateClick( e ){

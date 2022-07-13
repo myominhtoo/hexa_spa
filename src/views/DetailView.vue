@@ -2,8 +2,7 @@
    
     <section id="public-detail-main" class="container-fluid p-0 row m-0 ">
 
-        <Navbar :userInfo="userInfo" :isLogin="isLogin" />
-
+      <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin"/>
 
         <div class="mx-auto col-xl-10 col-md-12" >
             <div id="detail-wrapper" class="container-fluid row ">
@@ -47,6 +46,7 @@ import OtherNews from '../components/public/OtherNews.vue';
 import Comment from '../components/public/Comment.vue';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'DetailView',
@@ -71,6 +71,11 @@ export default {
             cmtMax : 2,//to render
             comment : "",
         }
+    },
+    setup(){
+        const { updateInfo } = getUpdateInfo();
+
+        return { updateInfo };
     },
     methods : {
         toggleShowComment(){

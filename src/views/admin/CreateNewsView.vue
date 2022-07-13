@@ -4,7 +4,7 @@
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
-        <Navbar :isLogin="isLogin" :userInfo="userInfo" />
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin" />
 
         <h1 class="my-5 thm h3 fw-bold">CREATE NEWS HERE!</h1>
          
@@ -55,9 +55,10 @@
 <script>
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters , useStore } from 'vuex';
 import axios from 'axios';
 import $ from 'jquery';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'CreateNewsView',
@@ -97,6 +98,11 @@ export default {
        },
        status : "",
       }
+    },
+    setup(){
+       const { updateInfo } = getUpdateInfo();
+
+        return { updateInfo };
     },
     methods : {
       async handleCreateNews(){
@@ -145,6 +151,9 @@ export default {
                 if(res.data == "Success"){
                     this.status = "Successfully Created!!";
                     this.resetForm();
+                    setTimeout(() => {
+                      this.status = "";
+                    } , 3000);
                 }
             }
             

@@ -6,7 +6,7 @@
     --bg-dark:rgba(0,0,0,0.75);
     --bg-light:rgba(255,255,255,0.75);
     --bg-snow:rgba(255,255,255,1);
-    --txt-dark:rgba(0,0,0,0.75);
+    --txt-dark:rgba(0,0,0,0.65);
     --txt-light:rgba(255,255,255,0.75);
     --txt-snow:rgba(255,255,255,1);
     --thm:rgba(245, 197, 125,1);
@@ -78,7 +78,6 @@ i.error{
 /* news-box */
 
 #news{
-    transition: 0.8s all;
     box-shadow: 0 0 1px var(--bg-dark);
     position: relative;
     height:200px;
@@ -106,7 +105,7 @@ i.error{
     left:0;
     width:100%;
     height:100%;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0,0,0,0.45);
     border-radius: 5px !important;
 }
 
@@ -116,7 +115,7 @@ i.error{
 
 /* news title & location */
 .news-title{
-    color:var(--thm);
+    color:var(--txt-snow);
     font-size: 15px;
     font-weight: bold;
     line-height: 1.3;
@@ -125,7 +124,7 @@ i.error{
 
 
 #news-location,.news-location{
-    color:var(--txt-light);
+    color:var(--thm);
     font-size: 15px;
     font-weight: bold;
 }
@@ -152,6 +151,12 @@ i.error{
     top:0;
     left:0;
     background-color: rgba(0,0,0,0.25);
+}
+
+#detail-content p{
+    list-style: 1.5 !important;
+    font-size: 23px !important;
+    letter-spacing:0.9px;
 }
 
 
@@ -236,17 +241,17 @@ i.error{
     position: absolute;
     top:0;
     left:0;
-    background-color: rgba(0,0,0,0.35);
+    background-color: rgba(0,0,0,0.55);
 }
 
 #filter-news #title{
     font-weight: bold;
-    color:var(--thm);
+    color:var(--txt-light);
 }
 
 #filter-news #location{
     font-weight: bold;
-    color:var(--txt-light);
+    color:var(--thm);
 }
 
 #status{

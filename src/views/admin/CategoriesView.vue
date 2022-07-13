@@ -4,7 +4,7 @@
      <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
-        <Navbar :userInfo="userInfo" :isLogin="isLogin"/>
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin" />
 
         <h1 class="my-5 thm h3 fw-bold">CATEGORIES' INFORMATION</h1>
         <div v-if="fullCategories != null && categories == null"  class="container p-0" :class="{'text-end' : status == '' ? true : false , 'd-flex justify-content-between' : status == '' ? false : true}">
@@ -100,10 +100,11 @@
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters , useStore } from 'vuex';
 import axios from 'axios';
 import $ from 'jquery';
 import swal from 'sweetalert';
+import getUpdateInfo from '@/composables/getUpdateInfo';
 
 export default {
     name : 'CategoriesView',
@@ -126,6 +127,11 @@ export default {
         statusError : false,
         id : 0,
       }
+    },
+    setup(){  
+       const { updateInfo } = getUpdateInfo();
+
+      return { updateInfo };
     },
     methods : {
       async handleCreateCategory(){

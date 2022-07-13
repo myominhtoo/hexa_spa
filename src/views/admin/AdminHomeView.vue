@@ -4,7 +4,7 @@
     <Sidebar :userInfo="userInfo" :isLogin="isLogin" />
 
     <div id="admin-main" class="w-85 pb-5">
-        <Navbar :userInfo="userInfo" :isLogin="isLogin" />
+        <Navbar @update:infos="updateInfo" :userInfo="userInfo" :isLogin="isLogin" />
 
         <Welcome :userInfo="userInfo" :isLogin="isLogin"/>
 
@@ -25,8 +25,10 @@ import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Welcome from '../../components/admin/Welcome.vue';
 import Box from '../../components/admin/Box.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, useStore } from 'vuex';
 import AdminChart from '@/components/admin/AdminChart.vue';
+import getUpdateInfo from '@/composables/getUpdateInfo.js'
+
 
 export default {
     name : 'AdminHomeView',
@@ -36,6 +38,17 @@ export default {
         Welcome,
         Box,
         AdminChart
+    },
+    data(){
+      return {
+        watcher : null,
+      }
+    },
+    setup(){
+      const { updateInfo } = getUpdateInfo();
+
+      return { updateInfo }
+      
     },
     methods : {
       ...mapActions(['getUserInfo']),

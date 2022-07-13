@@ -99,8 +99,8 @@ export default {
             let cookieInfos = this.getCookie();
 
             if(cookieInfos != "" || null ){
-              console.log("did")
                 this.getClearCookie(cookieInfos)
+                console.log("ok")
             }
 
             document.cookie = `user_name=${this.encode(user.user_name)}; `;
