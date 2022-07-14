@@ -29,6 +29,7 @@ const getLogout = () => {
                         clearSession(info);
 
                         localStorage.removeItem("curPage");
+                        localStorage.removeItem("animateDone");
 
                         router.push({
                             path : "/login",
