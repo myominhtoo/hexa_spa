@@ -51,7 +51,6 @@ import Pagination from '../components/public/Pagination.vue';
 import { mapActions , mapGetters } from 'vuex';
 import getUpdateInfo from '@/composables/getUpdateInfo';
 
-
 export default {
   name : 'HomeView',
   components : {
@@ -71,7 +70,7 @@ export default {
   setup(){
     const { updateInfo } = getUpdateInfo();
 
-    return { updateInfo };
+    return { updateInfo  };
   },
   methods : {
     goTo(page){

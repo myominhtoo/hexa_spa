@@ -76,7 +76,7 @@ export default {
 
                 chart = new Chart(
                     $("#admin-chart"),{
-                        type : "line",
+                        type : "bar",
                         data : {
                             labels : months.value,
                             datasets : [{

@@ -96,8 +96,6 @@ export default {
       if(document.cookie != ""){
          this.getUserInfo();
          this.getCounts();
-
-         console.log(this.animateDone)
       }
     }
 }

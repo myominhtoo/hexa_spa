@@ -5,12 +5,15 @@
             <div class="news-layer d-flex flex-column justify-content-end p-2">
                 <span class="news-title text-capitalize"> {{ info.news_name }} </span> 
                 <span class="news-location text-capitalize">|{{ info.news_location }}</span>
+                <span class="news-location text-capitalize">{{ getPeriod(info.created_date,'yy-mm-dd') }}</span>
         </div>
 	</router-link>
 
 </template>
 
 <script>
+import getPeriod from '@/composables/getPeriod'
+
 export default {
     name : 'News',
     props : {
@@ -18,6 +21,10 @@ export default {
             type : Object,
             default : {}
         }
-    }
+    },
+    setup(){
+
+        return { getPeriod };
+    },
 }
 </script>

@@ -4,8 +4,9 @@
 
         <div id="detail-image" class="my-3">
             <img :src="'http://localhost:8080/img/'+ info.news_img" alt="image">
-            <div id="detail-layer" class="p-2 d-flex justify-content-start align-items-end">
-                <span class="fw-bold txt-light "><i class="fa-solid fa-location-dot mx-1"></i>{{ info.news_location }}</span>
+            <div id="detail-layer" class="p-2 d-flex flex-column justify-content-end align-items-start">
+                <span class="fw-bold thm "><i class="fa-solid fa-location-dot mx-1"></i>{{ info.news_location }}</span>
+                <span class="fw-bold thm ">{{ getPeriod( info.created_date , "yy-mm-dd") }}</span>
             </div>
         </div>
         
@@ -17,6 +18,8 @@
 </template>
 
 <script>
+import getPeriod from '@/composables/getPeriod'
+
 export default {
     name : 'DetailNews',
     props : {
@@ -25,5 +28,8 @@ export default {
             default : {}
         }
     },
+    setup(){
+        return { getPeriod  }
+    }
 }
 </script>
