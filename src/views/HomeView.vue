@@ -18,11 +18,11 @@
     </div>
 
     <!-- news -->
-    <div v-if="allNews != null" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
+    <div v-if="allNews != null && paginate.length > 0" id="news-collection" class="col-xl-9 col-md-10 col-sm-12 mx-auto  text-start">
       <span class="h2 text-start text-danger fw-bold my-5">News</span>
 
       <div id="news-wrapper" class="container-fluid row my-4 gap-2 d-flex justify-content-center flex-wrap mx-auto">
-        <div v-for="data in newsInPage" :key="data.news_id" class="news-box my-1 col-xl-3 col-lg-4 col-sm-10 text-light fw-bold p-0" id="news">
+        <div v-for="data in paginate" :key="data.news_id" class="news-box my-1 col-xl-3 col-lg-4 col-sm-10 text-light fw-bold p-0" id="news">
             <News :info="data"/>
         </div>
       </div>
@@ -49,7 +49,6 @@ import TodayNews from '../components/public/TodayNews.vue';
 import News from '../components/public/News.vue';
 import Pagination from '../components/public/Pagination.vue';
 import { mapActions , mapGetters } from 'vuex';
-import $ from 'jquery';
 import getUpdateInfo from '@/composables/getUpdateInfo';
 
 
@@ -65,7 +64,7 @@ export default {
   },
   data(){
     return {
-      max : 9,
+      max : 11,
       curPage : 1,
     }
   },
@@ -78,22 +77,35 @@ export default {
     goTo(page){
       this.curPage = page ;
       localStorage.setItem('curPage',page);
-      this.getAllNews({ pageFrom : page , maxPerPage : this.max });
+
     }, 
     goPrev(){
       this.curPage = this.curPage == 1 ? this.totalPage : this.curPage - 1; 
        localStorage.setItem('curPage',this.curPage);
-      this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
     },
     goNext(){
        this.curPage = this.curPage == this.totalPage ? 1 : this.curPage + 1;
        localStorage.setItem('curPage',this.curPage);
-       this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
     },
     ...mapActions(['getCategories','getTodayNews','getNewsInPage','getAllNews','getUserInfo']),
   },
   computed : {
-    ...mapGetters(['categories','todayNews','newsInPage','allNews','totalPage','userInfo','isLogin']),
+    paginate(){
+      const allNews = this.allNews;
+      let start = (this.curPage - 1) * this.max;
+      let end = start + this.max;
+      let results = [];
+    
+      if(allNews != null ){
+          for(let i = start ; i < end ; i++ ){
+            if(allNews[i] != undefined){
+              results.push(allNews[i]);
+            }
+        }
+      }
+      return results;
+    },
+    ...mapGetters(['categories','todayNews','allNews','totalPage','userInfo','isLogin']),
   },
   created(){
     if(localStorage.getItem('curPage') == null){
@@ -106,8 +118,10 @@ export default {
   mounted(){
      this.getCategories();
      this.getTodayNews();
-     this.getAllNews({ pageFrom : this.curPage , maxPerPage : this.max});
+     this.getAllNews({ maxPerPage : this.max});
      this.getUserInfo();
+
+     window.scrollTo(0,0);
   },
 }
 </script>

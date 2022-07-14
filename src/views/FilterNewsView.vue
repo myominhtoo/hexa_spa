@@ -123,6 +123,8 @@ export default {
         let category = this.$route.query.category;
         let search = this.$route.query.search;
 
+         window.scrollTo(0,0);
+
 
         if(this.checkCategoryPage()){
             this.hasError = false;

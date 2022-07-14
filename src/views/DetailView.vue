@@ -145,6 +145,7 @@ export default {
     },
     mounted(){
         this.getUserInfo();
+        window.scrollTo(0,0);
 
     },
     unmounted(){

@@ -116,7 +116,7 @@ i.error{
 /* news title & location */
 .news-title{
     color:var(--txt-snow);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: bold;
     line-height: 1.3;
     
@@ -155,7 +155,7 @@ i.error{
 
 #detail-content p{
     list-style: 1.5 !important;
-    font-size: 23px !important;
+    font-size: 21px !important;
     letter-spacing:0.9px;
 }
 
@@ -246,7 +246,12 @@ i.error{
 
 #filter-news #title{
     font-weight: bold;
-    color:var(--txt-light);
+    font-size:17px;
+    color:var(--txt-snow);
+}
+
+#filter-news #details{
+    font-size: 20px  !important;
 }
 
 #filter-news #location{

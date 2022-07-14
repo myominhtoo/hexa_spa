@@ -80,12 +80,10 @@ export default {
             commit('setTodayNews',res.data);
         },
 
-         async getAllNews( { commit , dispatch }  , infos ){
+         async getAllNews( { commit }  , infos ){
             const res = await axios.get('http://localhost:8080/hexa/api/news');
-            
-            dispatch('getNewsInPage',{ allNews : res.data , pageFrom : infos.pageFrom , maxPerPage : infos.maxPerPage});
-            
-            commit('setTotalPage',Math.ceil(res.data.length/infos.maxPerPage));
+
+            commit('setTotalPage',Math.ceil(res.data.length/infos.maxPerPage));           
             
             commit('setAllNews',res.data);
          },
@@ -109,19 +107,19 @@ export default {
             commit('setOtherNews',result);
          },
 
-        getNewsInPage({ commit } , { allNews , pageFrom , maxPerPage}){
-            let start = (Number(pageFrom) - 1 ) * maxPerPage;
-            let end = start + maxPerPage;
+        // getNewsInPage({ commit } , { allNews , pageFrom , maxPerPage}){
+        //     let start = (Number(pageFrom) - 1 ) * maxPerPage;
+        //     let end = start + maxPerPage;
 
-            let results = [];
+        //     let results = [];
 
-            for(let i = start ; i < end ; i++ ){
-                if(!allNews[i]) break;
-                else results.push(allNews[i]);
-            }
+        //     for(let i = start ; i < end ; i++ ){
+        //         if(!allNews[i]) break;
+        //         else results.push(allNews[i]);
+        //     }
 
-            commit('setNewsInPage',results);
-         },
+        //     commit('setNewsInPage',results);
+        //  },
         
     }
 }
