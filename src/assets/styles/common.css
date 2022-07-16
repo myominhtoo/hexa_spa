@@ -310,3 +310,8 @@ i.error{
     border:none;
     color: var(--txt-dark);
 }
+
+#category{
+    border-radius:30px !important ;
+    padding: 5px 10px !important;
+}
