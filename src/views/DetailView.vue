@@ -47,6 +47,7 @@ import Comment from '../components/public/Comment.vue';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'DetailView',
@@ -146,6 +147,8 @@ export default {
     mounted(){
         this.getUserInfo();
         window.scrollTo(0,0);
+
+        getSetTitle("hexa | detail");
 
     },
     unmounted(){

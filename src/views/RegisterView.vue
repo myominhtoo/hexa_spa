@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group d-flex justify-content-between align-item-center my-2">
-              <router-link to="/" class="text-danger">Back</router-link>
+              <router-link to="/" class="text-danger text-decoration-underline">Home Page</router-link>
               <router-link to="/login">Already?</router-link>
             </div>
         </form>
@@ -51,6 +51,7 @@
 import axios from 'axios';
 import Footer from '../components/public/Footer.vue';
 import { mapActions, mapGetters } from 'vuex';
+import getSetTitle from '@/composables/getSetTitle';
 
 
 export default {
@@ -122,6 +123,8 @@ export default {
   created(){
     this.getUsers();
     this.getEmails();
+
+    getSetTitle("hexa | register");
   },
 }
 </script>

@@ -32,9 +32,10 @@
 import Table from '../../components/admin/Table.vue';
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
-import { mapActions, mapGetters , useStore } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'UsersView',
@@ -83,6 +84,7 @@ export default {
        if(document.cookie != ""){
          this.getUserInfo();
       }
+      getSetTitle("admin | users");
     }
 }
 </script>

@@ -50,6 +50,7 @@ import { mapActions, mapGetters , useStore } from 'vuex';
 import getSecret from '@/composables/getSecret';
 import axios from 'axios';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'NewsView',
@@ -159,6 +160,8 @@ export default {
           this.$router.replace({ query : {}});
         } , 3000 )
       }
+
+      getSetTitle("admin | news");
     }
 
 }

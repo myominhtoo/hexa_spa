@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group d-flex justify-content-between align-item-center my-2">
-              <router-link to="/" class="text-danger">Back</router-link>
+              <router-link to="/" class="text-danger text-decoration-underline">Home Page</router-link>
               <router-link to="/register">Create?</router-link>
             </div>
         </form>
@@ -44,10 +44,10 @@
 
 <script>
 import axios from 'axios';
-import { encode , decode } from '@/composables/getSecret.js';
 import Footer from '../components/public/Footer.vue';
 import getCookie from '@/router/helper/getCookie';
 import getClearCookie from '@/composables/getClearCookie.js';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
   name : 'LoginView',
@@ -137,5 +137,8 @@ export default {
       return window.atob(input);
     }
   },
+  mounted(){
+    getSetTitle("hexa | login");
+  }
 }
 </script>

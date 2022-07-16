@@ -33,10 +33,11 @@
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
-import { mapActions, mapGetters , useStore } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import swal from 'sweetalert';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'CommentsView',
@@ -111,6 +112,8 @@ export default {
          this.getCmtsInNews({ userId : window.atob(this.userInfo.user_id) , newsId : this.$route.params.newsId});
          this.isLoading = false;
       }
+
+      getSetTitle("admin | comments");
     }
 }
 </script>

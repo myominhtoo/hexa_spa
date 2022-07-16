@@ -50,6 +50,7 @@ import News from '../components/public/News.vue';
 import Pagination from '../components/public/Pagination.vue';
 import { mapActions , mapGetters } from 'vuex';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
   name : 'HomeView',
@@ -115,6 +116,8 @@ export default {
     }
   },
   mounted(){
+    getSetTitle("hexa | home");
+
      this.getCategories();
      this.getTodayNews();
      this.getAllNews({ maxPerPage : this.max});

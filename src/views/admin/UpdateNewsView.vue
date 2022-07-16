@@ -55,10 +55,10 @@
 <script>
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
-import { mapActions, mapGetters , useStore } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
-import $ from 'jquery';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'UpdateNewsView',
@@ -236,6 +236,7 @@ export default {
       }
 
       this.getCategories();
+      getSetTitle("admin | update");
     },
 }
 </script>

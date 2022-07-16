@@ -29,7 +29,7 @@ import { mapActions, mapGetters } from 'vuex';
 import AdminChart from '@/components/admin/AdminChart.vue';
 import getUpdateInfo from '@/composables/getUpdateInfo.js'
 import axios from 'axios';
-import $ from 'jquery';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'AdminHomeView',
@@ -97,6 +97,7 @@ export default {
          this.getUserInfo();
          this.getCounts();
       }
+      getSetTitle("admin | home");
     }
 }
 </script>

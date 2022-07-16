@@ -100,11 +100,12 @@
 import Sidebar from '../../components/admin/SideBar.vue';
 import Navbar from '../../components/admin/Navbar.vue';
 import Table from '../../components/admin/Table.vue';
-import { mapActions, mapGetters , useStore } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import $ from 'jquery';
 import swal from 'sweetalert';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'CategoriesView',
@@ -266,6 +267,7 @@ export default {
 
          this.isLoading = false;
       }
+      getSetTitle("admin | categories ");
     }
 }
 </script>

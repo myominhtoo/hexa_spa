@@ -41,6 +41,7 @@ import Search from '@/components/public/Search.vue';
 import { mapActions, mapGetters } from 'vuex';
 import axios from 'axios';
 import getUpdateInfo from '@/composables/getUpdateInfo';
+import getSetTitle from '@/composables/getSetTitle';
 
 export default {
     name : 'FilterNewsView',
@@ -122,6 +123,8 @@ export default {
     mounted(){
         let category = this.$route.query.category;
         let search = this.$route.query.search;
+
+        getSetTitle("hexa | filter");
 
          window.scrollTo(0,0);
 
