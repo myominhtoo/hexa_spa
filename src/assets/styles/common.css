@@ -311,7 +311,7 @@ i.error{
     color: var(--txt-dark);
 }
 
-#category{
+#bulb,#category{
     border-radius:30px !important ;
     padding: 5px 10px !important;
 }

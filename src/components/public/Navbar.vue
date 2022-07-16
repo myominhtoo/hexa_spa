@@ -9,10 +9,10 @@
             <ul class="navbar-nav d-flex align-items-center gap-4">
                 <li class="nav-item fw-bold thm"><router-link to="/" class="text-decoration-none thm">Home</router-link></li>
                 <span id="toggle-edit-modal" class="d-none p-2" data-bs-toggle="modal" data-bs-target="#edit-modal"></span>
-                <li @click="handleNameClick(decode(userInfo.user_role))" class="nav-item fw-bold txt-dark text-capitalize" v-if="isLogin && userInfo != ''">{{ decode(userInfo.user_name )}}</li>
-                <li class="nav-item shadow-sm text-success p-1 fw-bold" v-show="!isLogin"><router-link class="text-decoration-none text-success" :to="{name : 'login'}">Sign In</router-link></li>
-                <li class="nav-item shadow-sm text-primary p-1 fw-bold" v-show="!isLogin"><router-link class="text-decoration-none text-primary" :to="{ name : 'register'}">Sign Up</router-link></li>
-                <li @click="handleLogout(userInfo)" class="nav-item shadow-sm text-danger p-1 fw-bold" v-show="isLogin">Logout</li>
+                <li @click="handleNameClick(decode(userInfo.user_role))" class="nav-item fw-bold txt-dark text-capitalize" id="bulb" v-if="isLogin && userInfo != ''">{{ decode(userInfo.user_name )}}</li>
+                <li class="nav-item shadow-sm text-success p-1 fw-bold" id="bulb" v-show="!isLogin"><router-link class="text-decoration-none text-success" :to="{name : 'login'}">Sign In</router-link></li>
+                <li class="nav-item shadow-sm text-primary p-1 fw-bold" id="bulb" v-show="!isLogin"><router-link class="text-decoration-none text-primary" :to="{ name : 'register'}">Sign Up</router-link></li>
+                <li @click="handleLogout(userInfo)" class="nav-item shadow-sm text-danger p-1 fw-bold" id="bulb" v-show="isLogin">Logout</li>
                 <li class="nav-item h6 fw-bold txt-dark p-0 mx-2"><router-link to="/news?search=''"><i class="fa-solid fa-magnifying-glass txt-dark"></i></router-link></li>
             </ul>
        </div>

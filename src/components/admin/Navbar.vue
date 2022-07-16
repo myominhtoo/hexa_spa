@@ -5,8 +5,8 @@
 
             <div class="navbar-nav d-flex align-items-center gap-3">
                 <span id="toggle-edit-modal" class="d-none" data-bs-toggle="modal" data-bs-target="#edit-modal"></span>
-                <li @click="handleNameClick('')" class="nav-item fw-bold txt-dark " v-if="isLogin && userInfo != ''"><span class="mx-1 txt-dark text-capitalize">{{ decode(userInfo.user_name) }}</span><span class="mx-1 p-2 text-primary shadow-sm " >{{ decode(userInfo.user_role) }}</span></li>
-                <li @click="handleLogout(userInfo)" class="nav-item p-2 fw-bold shadow-sm text-danger">Logout</li>
+                <li @click="handleNameClick('')" class="nav-item fw-bold txt-dark " id="bulb" v-if="isLogin && userInfo != ''"><span class="mx-1 txt-dark text-capitalize">{{ decode(userInfo.user_name) }}</span><span class="mx-1 p-2 text-primary shadow-sm " >{{ decode(userInfo.user_role) }}</span></li>
+                <li @click="handleLogout(userInfo)" class="nav-item p-2 fw-bold shadow-sm text-danger" id="bulb">Logout</li>
             </div>
         </div>
     </header>

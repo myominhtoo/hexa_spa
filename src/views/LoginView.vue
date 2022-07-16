@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group my-2">
-              <button class="btn btn-primary w-100 btn-sm">Login</button>
+              <button class="btn btn-primary w-100 btn-sm fw-bold txt-light">Login</button>
             </div>
 
             <div class="form-group d-flex justify-content-between align-item-center my-2">
