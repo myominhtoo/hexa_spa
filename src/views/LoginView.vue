@@ -92,31 +92,42 @@ export default {
          
          const user = res.data;
 
-         if(user.user_email == null || user.user_name == null || user._token == 0){
+
+         if((user.user_email == null || user.user_name == null || user._token == 0)){
             this.errors.user_email = { hasError : true , msg : "Invalid Email or Password!" };
             this.errors.user_password = { hasError : true , msg : "Invalid Email or Password! " };
          }else{      
-            let cookieInfos = this.getCookie();
+            if(user.status == 0){
+              let cookieInfos = this.getCookie();
 
-            if(cookieInfos != "" || null ){
-                this.getClearCookie(cookieInfos)
-                console.log("ok")
+              if(cookieInfos != "" || null ){
+                  this.getClearCookie(cookieInfos)
+              }
+
+              document.cookie = `user_name=${this.encode(user.user_name)}; `;
+              document.cookie = `user_id=${this.encode(user.user_id)}; `;
+              document.cookie = `user_email=${this.encode(user.user_email)}; `;
+              document.cookie = `code=${this.encode(this.encode(user.user_password))}`
+              document.cookie = `user_role=${this.encode(user.user_role)}; `;
+              document.cookie = `_token=${this.encode(user._token)}; `;
+              
+              this.resetForm();
+              
+              if(user.user_role == "admin" ) this.$router.push("/admin");
+              else if(user.user_role == "reporter") this.$router.push("/admin/news");
+              else this.$router.push("/");
+
+            }else{
+               this.errors.user_email = { hasError : true , msg : "This account was blocked by admin team!" };
+               this.errors.user_password = { hasError : true , msg : "This account was blocked by admin team!"};
             }
-
-            document.cookie = `user_name=${this.encode(user.user_name)}; `;
-            document.cookie = `user_id=${this.encode(user.user_id)}; `;
-            document.cookie = `user_email=${this.encode(user.user_email)}; `;
-            document.cookie = `code=${this.encode(this.encode(user.user_password))}`
-            document.cookie = `user_role=${this.encode(user.user_role)}; `;
-            document.cookie = `_token=${this.encode(user._token)}; `;
-            
-            this.resetForm();
-            
-            if(user.user_role == "admin" ) this.$router.push("/admin");
-            else if(user.user_role == "reporter") this.$router.push("/admin/news");
-            else this.$router.push("/");
          }
       }
+    },
+    resetQuery( after ){
+      setTimeout(() => {
+        this.$router.replace( {query : {} } );
+      }, after);
     },
     validateInput( data , isUnique = false ){
        let isEmpty = data == "" ? true : false ; 
@@ -139,6 +150,10 @@ export default {
   },
   mounted(){
     getSetTitle("hexa | login");
+
+    if(this.$route.query.status != undefined){
+      this.resetQuery( 3000 );
+    }
   }
 }
 </script>
