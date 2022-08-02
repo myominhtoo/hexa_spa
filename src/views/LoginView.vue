@@ -13,14 +13,14 @@
         <form action="" class="card-body" @submit.prevent="handleLoginSubmit">
             <div class="form-group my-2 text-start">
               <label for="" class="form-label fw-bold txt-dark">Email Address</label>
-              <input type="text" class="form-control" v-model="user.user_email" placeholder="Your Email Address">
+              <input type="email" class="form-control" v-model="user.user_email" placeholder="Your Email Address">
               <span v-show="errors.user_email.hasError" class="text-danger fw-bold" id="error">{{ errors.user_email.msg }}</span> 
               <i class="fa-solid fa-envelope txt-dark" :class="{'error' : errors.user_email.hasError}"></i>
             </div>
 
             <div class="form-group my-2 text-start">
               <label for="" class="form-label fw-bold txt-dark">Password</label>
-              <input type="password" class="form-control" v-model="user.user_password" placeholder="Your Password">
+              <input type="password" class="form-control" v-model="user.user_password" placeholder="Your Password" minlength="6">
               <span v-show="errors.user_password.hasError" class="text-danger fw-bold" id="error">{{ errors.user_password.msg }}</span> 
               <i class="fa-solid fa-lock txt-dark" :class="{'error' : errors.user_password.hasError}"></i>
             </div>
